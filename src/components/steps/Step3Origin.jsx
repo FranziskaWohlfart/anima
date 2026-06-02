@@ -45,19 +45,6 @@ function SkillCheckboxes({ availableSkills, selectedSkills, maxCount, onChange, 
 function WildlingFields({ character, updateCharacter, selectedSkills, onSkillChange }) {
   const allSkillNames = SKILLS.map(s => s.name)
 
-  function setSkillAtIndex(index, value) {
-    const updated = [...selectedSkills]
-    updated[index] = value
-    // Ensure no duplicates
-    if (updated[0] === updated[1] && updated[0] !== '') {
-      updated[index] = ''
-    }
-    onSkillChange(updated.filter(Boolean))
-  }
-
-  const skill1 = selectedSkills[0] || ''
-  const skill2 = selectedSkills[1] || ''
-
   return (
     <div className="wildling-fields">
       <div className="wildling-fields__title">Wildling Custom Fields</div>
@@ -129,35 +116,34 @@ function WildlingFields({ character, updateCharacter, selectedSkills, onSkillCha
         <label>Skill Proficiencies — Choose 2</label>
         <div className="helper-text" style={{ marginBottom: 'var(--spacing-sm)' }}>
           Choose two skills that reflect your animal nature, instincts, movement, senses, or
-          survival style. The same skill cannot be chosen twice.
+          survival style. Selected: {selectedSkills.length} / 2
         </div>
-        <div className="skill-dropdown-row">
-          <div className="skill-dropdown">
-            <label htmlFor="wildling-skill-1">Skill 1</label>
-            <select
-              id="wildling-skill-1"
-              value={skill1}
-              onChange={e => setSkillAtIndex(0, e.target.value)}
-            >
-              <option value="">— Choose skill —</option>
-              {allSkillNames.filter(s => s !== skill2).map(s => (
-                <option key={s} value={s}>{s}</option>
-              ))}
-            </select>
-          </div>
-          <div className="skill-dropdown">
-            <label htmlFor="wildling-skill-2">Skill 2</label>
-            <select
-              id="wildling-skill-2"
-              value={skill2}
-              onChange={e => setSkillAtIndex(1, e.target.value)}
-            >
-              <option value="">— Choose skill —</option>
-              {allSkillNames.filter(s => s !== skill1).map(s => (
-                <option key={s} value={s}>{s}</option>
-              ))}
-            </select>
-          </div>
+        <div className="skill-checkboxes">
+          {allSkillNames.map(skill => {
+            const isSelected = selectedSkills.includes(skill)
+            const isMaxed = selectedSkills.length >= 2 && !isSelected
+            function toggle() {
+              if (isMaxed) return
+              if (isSelected) {
+                onSkillChange(selectedSkills.filter(s => s !== skill))
+              } else {
+                onSkillChange([...selectedSkills, skill])
+              }
+            }
+            return (
+              <div
+                key={skill}
+                className={`skill-checkbox-item${isSelected ? ' selected' : ''}${isMaxed ? ' disabled' : ''}`}
+                onClick={toggle}
+                role="button"
+                tabIndex={isMaxed ? -1 : 0}
+                onKeyDown={e => e.key === 'Enter' && toggle()}
+                aria-pressed={isSelected}
+              >
+                {skill}
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>
