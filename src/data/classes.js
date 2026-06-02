@@ -138,7 +138,7 @@ export const CLASS_GROUPS = [
         name: 'Ranger',
         icon: '🏹',
         cardDescription: 'A hunter and guide who reads tracks, weather, beasts, ruins, and danger.',
-        stillImage: '/Class_Druid.png',
+        stillImage: '/class_ranger.png',
         description:
           'Hunter, scout, guide, and survivor. Rangers move between civilization and wilderness, reading tracks, weather, beasts, ruins, and people with equal care. In ANIMA, they are often the first to notice when the land changes — and the last to abandon those lost within it.',
         skillCount: 3,
