@@ -54,7 +54,7 @@ export const RACES = [
     id: 'wildling',
     name: 'Wildling',
     flavor: 'Animal-touched people of the Wilds, shaped by spirit, instinct, transformation, and the living world.',
-    mechanics: ['+2 / +1 to ability scores of choice', 'Animal form chosen next'],
+    mechanics: ['+2 / +1 to ability scores of choice', 'Racial Trait'],
     stillImage: '/Race_Wildling_Still.png',
     animatedImage: '/Race_Wildling_Selected.mp4',
     description:
