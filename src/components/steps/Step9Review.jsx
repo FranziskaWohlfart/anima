@@ -18,7 +18,13 @@ export default function Step9Review({ step, character, onBack, jumpToStep }) {
   const faith = FAITHS.find(f => f.id === character.faith)
   const cls = findClassById(character.characterClass)
   const classGroup = CLASS_GROUPS.find(g => g.id === character.classGroup)
-  const background = BACKGROUNDS.find(b => b.id === character.background)
+  const background = character.background === 'custom'
+    ? { name: character.customBackgroundName || 'Custom Background', description: character.customBackgroundDescription || '' }
+    : BACKGROUNDS.find(b => b.id === character.background)
+
+  const displayPortrait = character.portraitImage
+    || (!character.portraitCleared && cls?.stillImage)
+    || null
 
   const callingImages = {
     martial: '/Class_Icon_Martial.png',
@@ -78,9 +84,9 @@ export default function Step9Review({ step, character, onBack, jumpToStep }) {
             <div className="review-card__section-title">Character</div>
             <button className="review-card__edit-btn" onClick={() => jumpToStep(8)}>Edit</button>
           </div>
-          {character.portraitImage ? (
+          {displayPortrait ? (
             <img
-              src={character.portraitImage}
+              src={displayPortrait}
               alt="Portrait"
               style={{ width: '100%', maxWidth: 200, aspectRatio: '3 / 4', objectFit: 'cover', display: 'block', margin: '0 auto 8px' }}
             />
