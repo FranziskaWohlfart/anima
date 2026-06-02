@@ -21,6 +21,7 @@ const initialCharacter = {
   race: 'bashet',
   origin: null,
   animalForm: '',
+  wildlingRacialTrait: '',
   abilityBonusPlusTwo: '',
   abilityBonusPlusOne: '',
   faith: null,

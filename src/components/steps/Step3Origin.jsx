@@ -108,6 +108,24 @@ function WildlingFields({ character, updateCharacter, selectedSkills, onSkillCha
       </div>
 
       <div className="form-group">
+        <label htmlFor="racial-trait">Racial Trait</label>
+        <select
+          id="racial-trait"
+          value={character.wildlingRacialTrait || ''}
+          onChange={e => updateCharacter({ wildlingRacialTrait: e.target.value })}
+        >
+          <option value="">— Choose a racial trait —</option>
+          <option value="Adrenaline Rush">Adrenaline Rush</option>
+          <option value="Brave">Brave</option>
+          <option value="Darkvision">Darkvision</option>
+          <option value="Flying Speed">Flying Speed</option>
+          <option value="Keen Sense">Keen Sense</option>
+          <option value="Lucky">Lucky</option>
+          <option value="Trance">Trance</option>
+        </select>
+      </div>
+
+      <div className="form-group">
         <label>Skill Proficiencies — Choose 2</label>
         <div className="helper-text" style={{ marginBottom: 'var(--spacing-sm)' }}>
           Choose two skills that reflect your animal nature, instincts, movement, senses, or
@@ -199,6 +217,7 @@ export default function Step3Origin({ step, character, updateCharacter, onBack, 
         character.abilityBonusPlusTwo &&
         character.abilityBonusPlusOne &&
         character.abilityBonusPlusTwo !== character.abilityBonusPlusOne &&
+        character.wildlingRacialTrait &&
         character.originSkills.length === 2
       )
     }

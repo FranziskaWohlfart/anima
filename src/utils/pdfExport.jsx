@@ -413,6 +413,7 @@ function PageOne({ character, theme, race, origin, cls, classGroup, faith, backg
     if (character.race === 'wildling') {
       if (character.abilityBonusPlusTwo) t.push(`+2 ${character.abilityBonusPlusTwo}, +1 ${character.abilityBonusPlusOne || '___'}`)
       t.push(`Animal Form: ${character.animalForm || '_______________'}`)
+      if (character.wildlingRacialTrait) t.push(`Racial Trait: ${character.wildlingRacialTrait}`)
     }
     if (isRogue) t.push('Expertise: choose two skills or one skill + thieves\' tools.')
     return t
@@ -590,6 +591,7 @@ function PageTwo({ character, theme, race, origin, cls, classGroup, faith, backg
     if (character.race === 'wildling') {
       if (character.abilityBonusPlusTwo) t.push(`+2 ${character.abilityBonusPlusTwo}, +1 ${character.abilityBonusPlusOne || '___'}`)
       if (character.animalForm) t.push(`Animal Form: ${character.animalForm}`)
+      if (character.wildlingRacialTrait) t.push(`Racial Trait: ${character.wildlingRacialTrait}`)
     }
     return t
   }
