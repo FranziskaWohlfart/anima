@@ -1,0 +1,2290 @@
+# ANIMA Character Creator — Product Specification
+
+## 1. Product Overview
+
+**ANIMA Character Creator** is a fantasy web app for players in the ANIMA RPG campaign. The app introduces players to the continent of Lemuria, guides them through ANIMA-specific character choices, and generates a polished printable A4 PDF character sheet at the end.
+
+The experience should feel like opening an ancient fantasy dossier, magical parchment folio, or campaign archive. It is not a full live character tracker. It is a guided character creation and printable sheet generator.
+
+### Core product promise
+
+Players can:
+
+1. Learn about Lemuria and its major mysteries.
+2. Create a level 1 ANIMA character step by step.
+3. Choose ANIMA-specific race, origin, faith, class, background, equipment, and story details.
+4. Upload an optional character portrait.
+5. Export a beautiful A4 printable PDF character sheet.
+
+### Scope principle
+
+The app focuses on world-specific character identity and printable output. It does not need accounts, online saving, multiplayer, admin tools, or a live gameplay sheet.
+
+---
+
+## 2. Target Users
+
+### Primary users
+
+Players in the ANIMA campaign who need help understanding the world and creating a playable level 1 character.
+
+### Secondary users
+
+Portfolio viewers who should understand the project as a polished UI/UX and product design piece.
+
+---
+
+## 3. Product Goals
+
+* Introduce players to the world of Lemuria without overwhelming them.
+* Make ANIMA-specific choices feel exciting, visual, and meaningful.
+* Use a guided wizard structure so non-expert players can follow along.
+* Track race/origin/class/background choices and selected proficiencies.
+* Leave most mechanical math blank so players can fill and update by hand.
+* Produce a visually impressive A4 PDF sheet that feels custom to the chosen race.
+* Keep the implementation simple enough for a low-code/coding-agent build.
+
+---
+
+## 4. Key Product Decisions
+
+* Web app.
+* No login.
+* No account system.
+* No database required.
+* No saving required after page refresh.
+* Hardcoded content.
+* Guided step-by-step flow.
+* A4 PDF export.
+* Character name is mandatory.
+* Most fields are optional and can be left blank for handwriting later.
+* No automatic stat/math calculations.
+* No subclass selection in the app.
+* PDF includes an empty Subclass / Path / Order field.
+* Spells are not selected in the app.
+* Spell sheet page is included only for spellcasting classes.
+* Equipment is flavor-only and does not affect stats.
+* The app should use original ANIMA text, custom icons, and custom art direction.
+
+---
+
+## 5. Global UX Structure
+
+### Step count
+
+The character creation flow has **9 steps after the Welcome screen**:
+
+1. Learn About the World
+2. Choose Race
+3. Choose Origin / Ancestry
+4. Choose Faith
+5. Choose Class
+6. Choose Background
+7. Choose Equipment
+8. Character Details & Portrait
+9. Review & Export
+
+### Global navigation
+
+Every screen after the Welcome screen should include:
+
+* Top-left back icon.
+* Decorative diamond progress indicator.
+* Current step title.
+
+Suggested progress indicator style:
+
+```text
+◆ ◆ ◆ ◇ ◇ ◇ ◇ ◇ ◇
+```
+
+Filled diamonds represent completed/current progress. Empty diamonds represent remaining steps.
+
+### CTA behavior
+
+* Long exploratory screens may use a sticky bottom CTA.
+* Short choice screens use a normal bottom CTA below the content.
+* Required screens hide or disable Continue until valid.
+* Optional screens always allow Continue.
+
+### Required vs optional card behavior
+
+Required card-selection screens:
+
+* Used for Race, Origin / Ancestry, Class.
+* No selection by default.
+* Tapping a card selects it.
+* Tapping another card changes selection.
+* Tapping the selected card again does not deselect it.
+* Continue appears only after required choices are complete.
+
+Optional card-selection screens:
+
+* Used for Faith, Background, Equipment.
+* No selection by default.
+* Continue is always available.
+* Tapping a card selects it.
+* Tapping another card changes selection.
+* Tapping the selected card again deselects it.
+
+---
+
+## 6. Visual Art Direction
+
+The app should feel like an ancient fantasy dossier, magical parchment folio, or in-world character archive.
+
+### Overall style
+
+* Fantasy parchment UI.
+* Warm cream, sand, gold, sepia, ink brown, and muted accent colors.
+* Elegant serif typography for headings.
+* Readable body typography.
+* Simple symbolic icons.
+* Decorative but restrained borders.
+* Magic, astrology, relic, sun, moon, star, and folio-inspired ornaments.
+* Large illustrations for major identity choices.
+* Smaller custom icons for compact choice cards.
+
+### UI principles
+
+* The UI should feel magical and tactile, not like a generic form.
+* Cards should feel collectible and parchment-like.
+* Ornament should frame content, not overwhelm it.
+* Body text must remain readable.
+* The PDF is the visual hero artifact.
+
+### Cards
+
+Major cards use:
+
+* Large illustration.
+* Title.
+* Short flavor line.
+* Optional mechanic summary.
+* Parchment border.
+* Clear selected state.
+* Race cards may include a selected-state animation: the default card shows a still image, and when selected, the image area plays a one-time animation that ends on its final frame.
+
+Compact cards use:
+
+* Custom icon.
+* Title.
+* One-line description.
+* Optional Recommended badge.
+* Selected state.
+
+### Icons
+
+Use custom ANIMA icons, not copied official D&D icons. Icons should be simple, readable, and thematic.
+
+---
+
+## 7. Screen-by-Screen Requirements
+
+# Screen 0 — Welcome
+
+## Purpose
+
+Introduce the app and invite the player to begin.
+
+## Content
+
+Title:
+
+**Welcome to ANIMA**
+
+Description:
+
+**Discover the fantastic continent of Lemuria, learn about its peoples and mysteries, create your character step by step, and receive a printable character sheet at the end.**
+
+Primary CTA:
+
+**Begin Character Creation**
+
+Optional note:
+
+**No account required. Export your PDF when you are done.**
+
+## Layout
+
+Centered parchment panel with ANIMA title treatment, subtle magical/astrological ornamentation, and one prominent CTA.
+
+## Next screen
+
+Learn About the World.
+
+---
+
+# Screen 1 — Learn About the World
+
+## Purpose
+
+Introduce Lemuria and allow players to optionally explore lore before character creation.
+
+Lore must be optional and skimmable. Players can continue without reading all content.
+
+## Layout
+
+1. Top navigation with progress diamonds.
+2. Title: **Learn About the World**
+3. General intro text.
+4. Five illustrated lore cards.
+5. Expanded lore section for selected card.
+6. Sticky bottom CTA: **Continue to Character Creation**
+
+## General intro text
+
+Lemuria is a small and ancient continent, separated from the wider world by dangerous seas, old storms, and stranger things still. Sailors tell stories of reefs that move in the night, of whales that sing in forgotten languages, and of lights beneath the waves where no city should be. Those who reach Lemuria find a land of deep forests, golden deserts, shattered islands, silent ruins, and mountains ruled by dragons.
+
+But Lemuria is best known for its curse.
+
+Every human-like creature born on the continent carries the touch of this curse. Slowly, across generations, bodies change. Ears sharpen, eyes gleam in the dark, skin becomes scale, feather, fur, or fin. Some people remain stable for centuries as proud peoples with their own cultures and kingdoms. Others change further. In the worst cases, memory, language, and selfhood fade, until nothing remains but instinct.
+
+Some call this fate a curse.
+Some call it nature’s will.
+Some call it the punishment of forgotten gods.
+
+Whatever the truth, every people of Lemuria lives in its shadow.
+
+The oldest stories say there was once a great civilization before the Bashet, before the Nald, before the Wildling tribes, before even the oldest cities now standing. The ruins of that civilization are scattered across Lemuria: broken pillars in the desert, drowned halls beneath the sea, stone roads swallowed by roots, and towers cut into the mountains. No one knows what these people called themselves. Most simply call them the Ancients.
+
+Their language is mostly lost. Their cities are dead. Their purpose is unknown.
+
+And yet their shadow remains everywhere.
+
+## Lore cards
+
+Show five illustrated cards, not traditional tabs:
+
+1. The Curse
+2. The Silent Land
+3. Lands of Lemuria
+4. Peoples of Lemuria
+5. Faiths of Lemuria
+
+Each card has:
+
+* Illustration.
+* Title.
+* One-line teaser.
+* Selected state.
+
+Clicking a card opens or reveals that lore section below.
+
+## Lore detail behavior
+
+Each lore section should use:
+
+* Image/banner.
+* Short summary.
+* Expandable accordion sections.
+
+The goal is to avoid overwhelming players with walls of text.
+
+## Lore card teaser text
+
+**The Curse**
+Every people of Lemuria lives in its shadow.
+
+**The Silent Land**
+Where birds do not sing, and the Queen waits.
+
+**Lands of Lemuria**
+Deserts, islands, forests, ruins, and dragon mountains.
+
+**Peoples of Lemuria**
+Bashet, Nald, Drakanis, Wildlings, and the Soulless.
+
+**Faiths of Lemuria**
+Gods, heroes, dragons, spirits, and the Deep.
+
+## Lore content structure
+
+### The Curse
+
+The Curse does not strike all people in the same way. For some, it is barely more than ancestry: a stable form passed from parent to child. For others, it is a slow, frightening transformation. A person may live a normal life and yet watch their grandchildren grow more beastlike than they were. A family may remember a time when their ancestors walked on two feet and spoke clearly, only to now guard an elder who can no longer form words.
+
+Among scholars, priests, and village storytellers, the stages of the curse are often described in different ways. In Rem, learned Bashet speak of bloodlines and inherited forms. In Atlantis, Nald priests say the Deep protects them from the worst of the curse. In the Wilds, druids say the body only follows the soul’s true shape. Among the Drakanis, many believe dragon blood places them beyond the curse entirely.
+
+None fully agree.
+
+Most people, however, understand one thing: the curse is not finished.
+
+The fear is not only that people have changed. The fear is that one day, over generations, all culture may be lost. Cities may empty. Songs may become howls. Names may become meaningless. The peoples of Lemuria may become nothing but animals wandering among the ruins of their own kingdoms.
+
+This is why adventurers, scholars, priests, and desperate families still search for a cure.
+
+Many believe the source of the curse lies somewhere in the Silent Land, the dead territory ruled by the Silent Queen. Others believe the dragons know more than they admit. Some whisper that the Nald’s Ancients of the Deep are not merely gods or protectors, but keepers of a terrible truth.
+
+### The Silent Land
+
+Include the provided Silent Land text, broken into:
+
+* The Silent Queen.
+* The Soulless.
+* The Expanding Silence.
+* Rumors and Unknowns.
+
+### Lands of Lemuria
+
+Include the provided land text, broken into:
+
+* Rivarin Desert.
+* Rem, Capital of the Bashet.
+* Bay of Nald and the Shattered Isles.
+* Mountains of Yrarth.
+* The Wilds.
+* Oak Forest.
+
+Update all dragon-people references to **Drakanis**.
+
+### Peoples of Lemuria
+
+Include the provided people text, broken into:
+
+* Bashet.
+* Nald.
+* Drakanis.
+* Wildlings.
+* Soulless.
+
+Update all Dragahar references to **Drakanis**.
+
+### Faiths of Lemuria
+
+Include the provided faith text, broken into:
+
+* Khazar and the Thirteen Muses.
+* The Ancients of the Deep.
+* Dragon Gods and Dragonlords.
+* Elementals and Spirits of the Wilds.
+
+---
+
+# Screen 2 — Choose Race
+
+## Purpose
+
+Let the player choose which people of Lemuria their character belongs to.
+
+## Layout
+
+* Title: **Choose Your People**
+* Short intro text.
+* Four large illustrated race cards in one row on desktop.
+* Horizontal slider/carousel on mobile.
+* Detail area below cards.
+* No card selected by default.
+* Continue appears only after a race is selected.
+
+## Default helper text
+
+**Click on a card to learn more about each people of Lemuria.**
+
+## Race cards
+
+Race cards may support selected-state animation. Each race card should have a default still image and may have an optional animated selected-state asset provided by the designer. When the player selects a race card, the animation plays once and stops on its final frame. It should not loop. Only the selected card should animate. When another race is selected, the previous card returns to its still or final non-active visual state and the newly selected card plays its own one-time animation. If an animated asset is missing, the card should fall back to the still image.
+
+Respect reduced motion preferences: if reduced motion is enabled, do not play the animation and show the still or final frame instead.
+
+### Bashet
+
+Flavor:
+
+Graceful feline people of Rem and Rivarin, shaped by memory, beauty, pride, and survival.
+
+Mechanics:
+
+* Darkvision.
+* +2 Dexterity.
+* +1 Charisma.
+
+### Nald
+
+Flavor:
+
+Aquatic people of the Bay of Nald and Atlantis, wealthy, ceremonial, and guarded by the Deep.
+
+Mechanics:
+
+* Breathe underwater.
+* +2 Intelligence.
+* +1 Wisdom.
+
+### Drakanis
+
+Flavor:
+
+Half-dragon people of Yrarth, marked by ancient Dragonlords and draconic bloodlines.
+
+Mechanics:
+
+* +2 Constitution.
+* +1 Strength.
+* Drakanis lineage chosen next.
+
+### Wildling
+
+Flavor:
+
+Animal-touched people of the Wilds, shaped by spirit, instinct, transformation, and the living world.
+
+Mechanics:
+
+* +2 to one ability score of choice.
+* +1 to another ability score of choice.
+* Animal form chosen next.
+
+## Detail panel
+
+When a race is selected, show:
+
+* Longer description.
+* Appearance notes.
+* Culture notes.
+* World tension/conflict.
+* Mechanical traits.
+* Hint that the next step chooses origin/ancestry.
+
+---
+
+# Screen 3 — Choose Origin / Ancestry
+
+## Purpose
+
+Let the player choose a more specific identity within their selected race and collect origin skill proficiencies.
+
+This choice affects:
+
+* Character identity.
+* Skill proficiency options.
+* Traits printed on PDF.
+* Equipment pack recommendation.
+* For Drakanis: resistance and breath weapon.
+* For Wildling: animal form, ability bonus choices, and selected origin label.
+
+## Layout
+
+* Title: **Choose Your Origin** or **Choose Your Ancestry** depending on selected race.
+* Intro text based on selected race.
+* Large illustrated origin cards.
+* Detail panel after selection.
+* Skill selection area.
+* Continue appears only after all required fields are complete.
+
+## Global origin skill behavior
+
+* All origins provide **choose 2 skill proficiencies**.
+* Non-Wildling origins use checkboxes from predefined lists.
+* Wildlings use two dropdowns from all standard skills.
+* Duplicate skill selection is not allowed.
+* Selected skills will be marked with **P** on the PDF.
+
+## Bashet origins
+
+### Cityfolk
+
+Card subtitle:
+
+Child of Rem, shaped by music, memory, beauty, and clever words.
+
+Description:
+
+Cityfolk Bashet come from Rem’s streets, courts, schools, temples, markets, gardens, and performance halls. They are often surrounded by art, politics, fashion, scholarship, music, gossip, poetry, and sacred celebrations of Khazar and the Thirteen Muses.
+
+Cityfolk Bashet are usually graceful, expressive, socially aware, and proud of their culture. Some are diplomats, artists, merchants, scholars, performers, temple attendants, or clever survivors of city intrigue. To them, memory is not only history; it is identity, family, beauty, and resistance against the Curse.
+
+Skill proficiencies: choose 2
+
+* Persuasion
+* Acrobatics
+* Performance
+* History
+* Perception
+
+Suggested pack: Cityfolk Pack.
+
+### Sandstrider
+
+Card subtitle:
+
+Child of Rivarin, shaped by dunes, hunting paths, and old desert freedoms.
+
+Description:
+
+Sandstrider Bashet come from the Rivarin Desert: golden dunes, red stone, dry riverbeds, hidden oases, buried ruins, and ancient hunting paths. They may belong to prides, clans, wandering tribes, or independent families who live far from Rem’s walls.
+
+Sandstriders are often practical, proud, territorial, and difficult to command. Some guard sacred wells, hunt across the dunes, guide travelers, raid tombs, protect family routes, or live by rules older than kings. To them, survival is a form of memory, and freedom is not easily surrendered.
+
+Skill proficiencies: choose 2
+
+* Survival
+* Athletics
+* Stealth
+* Nature
+* Perception
+
+Suggested pack: Sandstrider Pack.
+
+## Nald origins
+
+Use **Atlantean** as the recommended spelling unless changed later.
+
+### Atlantean
+
+Card subtitle:
+
+Child of Atlantis, shaped by ceremony, secrecy, and the Deep.
+
+Description:
+
+Atlantean Nald come from the great underwater city of Atlantis and its surrounding courts, temples, and noble houses. Their lives are often shaped by ritual, wealth, politics, priesthoods, guarded knowledge, and the mysterious influence of the Ancients of the Deep.
+
+Atlanteans are often refined, educated, and careful with their words. Some are heirs to old families, temple servants, scholars, diplomats, engineers, or quiet keepers of secrets. To outsiders, they may seem graceful and privileged. To those who know Atlantis well, privilege and danger are often difficult to separate.
+
+Skill proficiencies: choose 2
+
+* Deception
+* Religion
+* History
+* Arcana
+* Investigation
+
+Suggested pack: Atlantean Pack.
+
+### Oceanic
+
+Card subtitle:
+
+Child of open water, reefs, tides, and hidden currents.
+
+Description:
+
+Oceanic Nald are shaped less by the courts of Atlantis and more by the living sea: reefs, islands, trenches, ships, storms, fishing routes, sea caves, and dangerous crossings. They may come from coastal settlements, wandering families, reef communities, or deep-water lineages that spend more time beneath the waves than above them.
+
+Oceanic Nald are often practical, perceptive, and difficult to surprise. Some are sailors, scouts, pearl-divers, hunters, smugglers, guides, healers, or watchers of places most landfolk will never see. Where Atlanteans may trust temples and hierarchy, Oceanic Nald often trust tides, instincts, and the old rules of survival.
+
+Skill proficiencies: choose 2
+
+* Insight
+* Nature
+* Arcana
+* Stealth
+* Perception
+
+Suggested pack: Oceanic Pack.
+
+## Drakanis lineages
+
+Important lore rule:
+
+The character creator must **not** mention that Drakanis were created using Dragonlord or Dragonlady scales. This is hidden setting lore and should not appear in the app or PDF.
+
+Show five lineage cards.
+
+### Ruby Lineage
+
+Subtitle:
+
+Child of Varkhaz, the Red Dragonlord.
+
+Theme:
+
+Fire, survival, pride, physical force.
+
+Description:
+
+Ruby Drakanis carry the heat of volcanic wrath, survival, conquest, and physical dominance. They are often bold, intense, proud, and difficult to command. Their communities may be tied to warriors, forge-servants, raiders, mountain champions, harsh training halls, or Dragonlords who rule through strength.
+
+A Ruby Drakanis may be admired for courage and feared for temper. Some embrace the expectations placed on them. Others struggle against the idea that their blood must make them a weapon.
+
+Traits:
+
+* Fire resistance.
+* Fire breath weapon.
+* Suggested pack: Ruby Drakanis Pack.
+
+Skill proficiencies: choose 2
+
+* Athletics
+* Survival
+* Intimidation
+* Sleight of Hand
+* Perception
+
+### Sapphire Lineage
+
+Subtitle:
+
+Child of Thalryss, the Blue Dragonlady.
+
+Theme:
+
+Storms, discipline, memory, investigation.
+
+Description:
+
+Sapphire Drakanis are associated with storms, precision, memory, patience, and control. Their lineages often value observation, discipline, healing, history, technical knowledge, and the handling of powerful animals or dangerous terrain.
+
+They may seem calm, distant, calculating, or deeply loyal once trust is earned. Many are raised to watch before acting and to remember what others overlook.
+
+Traits:
+
+* Lightning resistance.
+* Lightning breath weapon.
+* Suggested pack: Sapphire Drakanis Pack.
+
+Skill proficiencies: choose 2
+
+* Insight
+* Medicine
+* History
+* Animal Handling
+* Investigation
+
+### Emerald Lineage
+
+Subtitle:
+
+Child of Vaelthura, the Green Dragonlady.
+
+Theme:
+
+Nature, poison, beasts, old magic.
+
+Description:
+
+Emerald Drakanis are tied to forests, poison, beasts, hidden paths, and old magic. They are often seen as adaptable, watchful, instinctive, and difficult to read. Some serve as scouts, beast-keepers, herbalists, poisoners, wilderness guides, or quiet intermediaries between dragon rule and the living land.
+
+An Emerald Drakanis may feel more at home in dangerous wild places than in halls of stone. They often understand that survival is not always about strength; sometimes it is about patience, camouflage, and knowing what not to touch.
+
+Traits:
+
+* Poison resistance.
+* Poison breath weapon.
+* Suggested pack: Emerald Drakanis Pack.
+
+Skill proficiencies: choose 2
+
+* Nature
+* Animal Handling
+* Arcana
+* Survival
+* Acrobatics
+
+### Silver Lineage
+
+Subtitle:
+
+Child of Sorynth, the Silver Dragonlord.
+
+Theme:
+
+Frost, secrecy, exile, endurance.
+
+Description:
+
+Silver Drakanis are associated with cold, hidden histories, exile, endurance, and quiet survival. Their lineages may be connected to mountain scouts, spies, lost houses, oathkeepers, wanderers, or Drakanis who learned to survive by keeping secrets.
+
+They may be graceful but guarded, polite but evasive, loyal but slow to trust. Many Silver Drakanis learn early that survival depends on knowing when to speak, when to hide, and when to leave.
+
+Traits:
+
+* Cold resistance.
+* Frost breath weapon.
+* Suggested pack: Silver Drakanis Pack.
+
+Skill proficiencies: choose 2
+
+* History
+* Deception
+* Sleight of Hand
+* Survival
+* Investigation
+
+### Golden Lineage
+
+Subtitle:
+
+Child of Aurelion, the Gold Dragonlord.
+
+Theme:
+
+Radiance, leadership, beauty, legacy.
+
+Description:
+
+Golden Drakanis carry the weight of beauty, ceremony, command, and radiant legacy. Their bloodlines are often associated with champions, diplomats, noble servants, priestly warriors, public symbols, or Drakanis expected to inspire others.
+
+A Golden Drakanis may be admired before they are understood. Their presence can open doors, but it can also make them visible to those who want to use them. Some carry their legacy proudly; others wonder whether glory is another kind of chain.
+
+Traits:
+
+* Radiant resistance.
+* Radiant / golden sunfire breath weapon.
+* Suggested pack: Golden Drakanis Pack.
+
+Skill proficiencies: choose 2
+
+* Performance
+* Persuasion
+* Arcana
+* Perception
+* Athletics
+
+## Drakanis breath weapon rule
+
+At level 1, a Drakanis can release the elemental power of their dragon blood.
+
+* Uses: once per long rest.
+* Save DC: 8 + Constitution modifier + proficiency bonus.
+* Damage at level 1: 1d10.
+* Successful save: half damage.
+
+PDF should print the rule as reminder text, not calculate the DC.
+
+### Breath weapon table
+
+| Lineage  | Damage type | Shape      | Saving throw |
+| -------- | ----------- | ---------- | ------------ |
+| Ruby     | Fire        | 15 ft cone | Dexterity    |
+| Sapphire | Lightning   | 30 ft line | Dexterity    |
+| Emerald  | Poison      | 15 ft cone | Constitution |
+| Silver   | Cold        | 15 ft cone | Constitution |
+| Golden   | Radiant     | 30 ft line | Dexterity    |
+
+## Wildling origins
+
+Wildlings also use two large origin cards for visual consistency, even though both lead to the same mechanical flow.
+
+### Circleborn
+
+Subtitle:
+
+Raised among the tribes, packs, groves, and spirit circles of the Wilds.
+
+Description:
+
+Circleborn Wildlings grow up surrounded by shared rituals, oral memory, seasonal gatherings, animal masks, hunting paths, and the guidance of elders or spirit-speakers. Their identity is shaped by belonging: to a people, a place, a migration route, a sacred animal, or a living tradition.
+
+Mechanical result:
+
+* Enter animal form.
+* Choose +2 and +1 ability bonuses.
+* Choose 2 fitting skill proficiencies.
+* Suggested pack: Wildling Pack.
+
+Character sheet label:
+
+Wildling Origin: Circleborn.
+
+### Wildstray
+
+Subtitle:
+
+A solitary wanderer of the wilderness, shaped by instinct, distance, and survival.
+
+Description:
+
+Wildstray Wildlings may be exiles, scouts, wanderers, lost children, oathbreakers, messengers, performers, hermits, or survivors of a vanished clan. Some travel alone by choice. Others are searching for a new place to belong. They know the Wilds not as a homeland shared with many, but as a voice that speaks directly to them.
+
+Mechanical result:
+
+* Enter animal form.
+* Choose +2 and +1 ability bonuses.
+* Choose 2 fitting skill proficiencies.
+* Suggested pack: Wildling Pack.
+
+Character sheet label:
+
+Wildling Origin: Wildstray.
+
+## Wildling custom fields
+
+### Animal form
+
+Label:
+
+**What animal is your Wildling becoming?**
+
+Placeholder:
+
+Wolf, deer, fox, bear, crow, serpent, moth, boar...
+
+Helper text:
+
+Wildlings can reflect nearly any animal form. Choose something that inspires your movement, instincts, senses, culture, or appearance.
+
+### Ability bonuses
+
+Show two dropdowns:
+
+* +2 ability score.
+* +1 ability score.
+
+Options:
+
+* Strength
+* Dexterity
+* Constitution
+* Intelligence
+* Wisdom
+* Charisma
+
+Rules:
+
+* +2 and +1 cannot be assigned to the same ability.
+
+### Skill proficiencies
+
+Text:
+
+Choose two skills that reflect your animal nature, instincts, movement, senses, or survival style. The same skill cannot be chosen twice.
+
+Show two skill dropdowns containing all standard skills.
+
+---
+
+# Screen 4 — Choose Faith
+
+## Purpose
+
+Let players optionally choose a faith or worldview. Faith affects background suggestions, roleplay flavor, and the PDF identity section. It gives no mechanics.
+
+## Layout
+
+* Title: **Choose Your Faith**
+* Intro text.
+* Five cards.
+* Detail panel.
+* Continue always available.
+
+## Intro text
+
+Faith shapes many lives in Lemuria, but not every character is devout. You may choose a belief, leave it uncertain, or reject faith entirely.
+
+## Cards
+
+1. Khazar and the Thirteen Muses.
+2. The Ancients of the Deep.
+3. Dragon Gods and Dragonlords.
+4. Elementals and Spirits of the Wilds.
+5. No Religion / Undecided.
+
+## Optional behavior
+
+* No faith is selected by default.
+* Tapping a selected faith again deselects it.
+* If no card is selected, PDF faith field stays blank or says Not chosen depending on layout needs.
+* If No Religion / Undecided is selected, PDF says **None / Undecided**.
+
+## Faith descriptions
+
+### Khazar and the Thirteen Muses
+
+The faith of Rem tells of Khazar, a legendary hero beloved by thirteen divine Muses. Their stories are full of romance, beauty, wine, art, jealousy, tragedy, pleasure, and courage.
+
+The Bashet of Rem do not see joy as shallow. To them, music, love, dance, poetry, feasting, and desire are sacred acts of remembrance. A person who celebrates life defies forgetting.
+
+### The Ancients of the Deep
+
+The Nald worship the Ancients of the Deep, mysterious protectors said to dwell beneath Atlantis. They are believed to guard the Nald from the curse and preserve their culture beneath the waves.
+
+The priesthood teaches that the Deep remembers what the land forgets.
+
+Few outside the highest ranks of the Nald faith know what lies beneath the temples of Atlantis.
+
+### Dragon Gods and Dragonlords
+
+The Drakanis honor ancient dragons, some as gods, some as ancestors, some as living rulers. Among them, faith and politics are often inseparable. To serve a Dragonlord may be a religious duty, a family bond, a military oath, or a cruel necessity.
+
+Stories of the oldest dragons suggest they were present before the modern peoples of Lemuria arose. Whether they are guardians, tyrants, witnesses, or cowards depends on whom one asks.
+
+### Elementals and Spirits of the Wilds
+
+The Wildlings honor the spirits of nature: elementals, animal guardians, rivers, storms, stones, roots, fires, and the great cycle of change. Their faith has no single temple or scripture. It lives in practice.
+
+A mask may be a prayer.
+A hunt may be a hymn.
+A migration may be a holy text written across the land.
+
+To the Wildlings, the world is alive, and every living thing is becoming something.
+
+### No Religion / Undecided
+
+Your beliefs are private, uncertain, conflicted, or your own.
+
+---
+
+# Screen 5 — Choose Class
+
+## Purpose
+
+Let the player choose a class using a two-level visual structure:
+
+1. Choose a calling.
+2. Choose a class within that calling.
+3. Choose class skill proficiencies inside the selected class detail panel.
+
+No subclasses are selected in the app.
+
+## Layout
+
+* Title: **Choose Your Class**
+* Large illustrated calling cards.
+* Smaller custom icon class cards.
+* Selected class detail panel.
+* Class skill dropdowns inside detail panel.
+* Continue appears only when calling, class, and class skill choices are complete.
+
+## Calling cards
+
+### Martial
+
+Discipline, fury, body mastery, and survival through strength.
+
+Classes:
+
+* Fighter
+* Barbarian
+* Monk
+
+### Divine
+
+Faith, oath, miracle, duty, and sacred power.
+
+Classes:
+
+* Cleric
+* Paladin
+
+### Arcane
+
+Forbidden knowledge, inherited magic, old bargains, and hidden laws.
+
+Classes:
+
+* Wizard
+* Sorcerer
+* Warlock
+
+### Wilds
+
+Hunters, spirit-speakers, shapekeepers, and guardians of living places.
+
+Classes:
+
+* Ranger
+* Druid
+
+### Cunning
+
+Wit, art, secrecy, charm, precision, and survival by cleverness.
+
+Classes:
+
+* Bard
+* Rogue
+
+## Class detail panel contents
+
+Each selected class should show:
+
+* Class name.
+* ANIMA-flavored description.
+* Class skill proficiencies: choose X skills.
+* X dropdown menus.
+* Often found among tags.
+
+Do not show a subclass/path note here.
+
+## Class descriptions and tags
+
+### Fighter
+
+Disciplined, versatile, and relentless. Fighters are trained warriors found among city guards, mercenary companies, noble houses, caravan escorts, Dragonlord armies, and rebel bands. In ANIMA, a Fighter is someone who has turned survival into craft.
+
+Class skill proficiencies: Choose 2.
+
+Often found among: All peoples, especially Drakanis and Bashet.
+
+### Barbarian
+
+Rage given form. Barbarians draw power from fury, instinct, grief, spirit, bloodline, or the raw violence of the changing world. Many come from the Wilds, borderlands, deserts, warbands, or communities where civilization’s laws have little reach.
+
+Class skill proficiencies: Choose 2.
+
+Often found among: Wildlings, Bashet Sandstriders, Ruby or Emerald Drakanis.
+
+### Monk
+
+The body as weapon, the mind as armor. Monks turn breath, discipline, pain, and motion into supernatural precision. In ANIMA, they may belong to hidden temples, wandering schools, ascetic orders, or traditions created to resist the Curse through mastery of the self.
+
+Class skill proficiencies: Choose 2.
+
+Often found among: Bashet, Wildlings, Drakanis.
+
+### Cleric
+
+A vessel of faith, memory, and miracle. Clerics serve gods, heroes, Ancients, spirits, Dragonlords, or sacred mysteries. Their power may come from devotion, ritual, inherited duty, or something watching from beyond mortal understanding.
+
+Class skill proficiencies: Choose 2.
+
+Often found among: Nald, Drakanis, Wildlings.
+
+### Paladin
+
+An oath made flesh. Paladins are champions bound by conviction, whether sworn to a temple, a Dragonlord, a royal line, a spirit, a lost cause, or a personal vow. In ANIMA, a Paladin’s strength comes from believing so deeply that the world bends around the promise.
+
+Class skill proficiencies: Choose 2.
+
+Often found among: Nald, Drakanis, Bashet.
+
+### Wizard
+
+A scholar of impossible truths. Wizards study the structures beneath magic: old languages, curse patterns, elemental theory, forbidden ruins, divine remnants, and the failures of vanished civilizations. They are often respected, feared, or watched very closely.
+
+Class skill proficiencies: Choose 2.
+
+Often found among: Bashet, Nald.
+
+### Sorcerer
+
+Magic in the blood. Sorcerers do not learn power so much as survive it. Their gifts may come from dragon ancestry, ancient spirits, deep-sea influence, divine bloodlines, or a family secret that finally awakened.
+
+Class skill proficiencies: Choose 2.
+
+Often found among: Drakanis, Wildlings, Nald.
+
+### Warlock
+
+Power through pact, debt, or bargain. Warlocks are marked by an agreement with something greater, stranger, older, or more desperate than themselves. In ANIMA, that patron might be an Ancient of the Deep, a Dragonlord, a Muse, a forgotten elemental, or a voice within the Curse.
+
+Class skill proficiencies: Choose 2.
+
+Often found among: Drakanis, Nald, Wildlings.
+
+### Ranger
+
+Hunter, scout, guide, and survivor. Rangers move between civilization and wilderness, reading tracks, weather, beasts, ruins, and people with equal care. In ANIMA, they are often the first to notice when the land changes — and the last to abandon those lost within it.
+
+Class skill proficiencies: Choose 3.
+
+Often found among: Wildlings, Bashet Sandstriders, Oceanic Nald.
+
+### Druid
+
+Keeper of living change. Druids listen to beasts, roots, storms, rivers, bones, and the old spirits beneath the world. Some see the Curse as a wound. Others see it as a natural way of things. Either way, they know the world is alive.
+
+Class skill proficiencies: Choose 2.
+
+Often found among: Wildlings, Oceanic Nald, Emerald Drakanis.
+
+### Bard
+
+Memory with a blade hidden inside it. Bards carry songs, stories, scandals, rituals, histories, and forbidden names from place to place. In ANIMA, they are entertainers, spies, diplomats, chroniclers, seducers, or sacred keepers of what must not be forgotten.
+
+Class skill proficiencies: Choose 3.
+
+Often found among: Bashet Cityfolk, Wildlings, Golden Drakanis.
+
+### Rogue
+
+A specialist in survival. Rogues thrive in alleys, courts, ruins, temples, ships, and border roads by noticing what others miss. Some steal gold. Some steal secrets. Some steal lives. Some simply refuse to be owned.
+
+Class skill proficiencies: Choose 4.
+
+Often found among: Bashet Cityfolk, Nald Atlanteans, Silver Drakanis.
+
+## Class skill lists
+
+### Barbarian
+
+Choose 2:
+
+* Animal Handling
+* Athletics
+* Intimidation
+* Nature
+* Perception
+* Survival
+
+### Bard
+
+Choose any 3 skills.
+
+### Cleric
+
+Choose 2:
+
+* History
+* Insight
+* Medicine
+* Persuasion
+* Religion
+
+### Druid
+
+Choose 2:
+
+* Arcana
+* Animal Handling
+* Insight
+* Medicine
+* Nature
+* Perception
+* Religion
+* Survival
+
+### Fighter
+
+Choose 2:
+
+* Acrobatics
+* Animal Handling
+* Athletics
+* History
+* Insight
+* Intimidation
+* Persuasion
+* Perception
+* Survival
+
+### Monk
+
+Choose 2:
+
+* Acrobatics
+* Athletics
+* History
+* Insight
+* Religion
+* Stealth
+
+### Paladin
+
+Choose 2:
+
+* Athletics
+* Insight
+* Intimidation
+* Medicine
+* Persuasion
+* Religion
+
+### Ranger
+
+Choose 3:
+
+* Animal Handling
+* Athletics
+* Insight
+* Investigation
+* Nature
+* Perception
+* Stealth
+* Survival
+
+### Rogue
+
+Choose 4:
+
+* Acrobatics
+* Athletics
+* Deception
+* Insight
+* Intimidation
+* Investigation
+* Perception
+* Persuasion
+* Sleight of Hand
+* Stealth
+
+### Sorcerer
+
+Choose 2:
+
+* Arcana
+* Deception
+* Insight
+* Intimidation
+* Persuasion
+* Religion
+
+### Warlock
+
+Choose 2:
+
+* Arcana
+* Deception
+* History
+* Intimidation
+* Investigation
+* Nature
+* Religion
+
+### Wizard
+
+Choose 2:
+
+* Arcana
+* History
+* Insight
+* Investigation
+* Medicine
+* Nature
+* Religion
+
+## Skill dropdown behavior
+
+* Dropdowns contain only class-valid skills.
+* Origin-selected skills should be disabled or marked Already Proficient.
+* The same class skill cannot be selected twice.
+* Selected origin and class skills all receive a **P** marker on the PDF.
+
+---
+
+# Screen 6 — Choose Background
+
+## Purpose
+
+Let the player optionally choose an ANIMA-specific story background. Backgrounds are lore-only and give no mechanical bonuses.
+
+## Layout
+
+* Title: **Choose Your Background**
+* Short explanation.
+* Grid of compact parchment cards with icons.
+* Recommended badges where relevant.
+* Detail panel.
+* Continue always available.
+
+## Behavior
+
+* No background selected by default.
+* Continue available without a background.
+* Tapping a card selects it.
+* Tapping selected card again deselects it.
+* If no background is selected, PDF background space is left blank so players can write their own by hand.
+
+## Backgrounds
+
+### Curse-Touched
+
+Description:
+
+The Curse has marked your life in a visible or invisible way. You may fear it, study it, hide it, or believe it reveals something true.
+
+Suggested races: Wildling, Bashet.
+Suggested origins: Any.
+Suggested classes: Druid, Sorcerer, Warlock.
+Suggested faiths: Elementals and Spirits of the Wilds.
+
+Prompt:
+
+How has the Curse changed the way others see you?
+
+Icon idea: cracked moon / changing eye.
+
+### Temple Raised
+
+Description:
+
+You were raised around priests, rituals, relics, sacred songs, or forbidden doctrine. Faith shaped your childhood, even if you later questioned it.
+
+Suggested races: Nald.
+Suggested origins: Atlantean, Oceanic.
+Suggested classes: Cleric, Paladin, Monk.
+Suggested faiths: Ancients of the Deep.
+
+Prompt:
+
+What teaching, ritual, or secret from your upbringing still follows you?
+
+Icon idea: candle / temple arch.
+
+### Dragonbound
+
+Description:
+
+Your life has been shaped by a Dragonlord’s rule, protection, army, household, or shadow. You may be loyal, conflicted, escaped, or still bound.
+
+Suggested races: Drakanis.
+Suggested classes: Fighter, Paladin, Warlock.
+Suggested faiths: Dragon Gods and Dragonlords.
+
+Prompt:
+
+Do you serve your Dragonlord willingly, fearfully, secretly, or not at all?
+
+Icon idea: dragon scale / chain.
+
+### Desert Wanderer
+
+Description:
+
+You learned to survive in harsh lands where water, memory, family, and freedom matter more than comfort.
+
+Suggested races: Bashet.
+Suggested origins: Sandstrider.
+Suggested classes: Ranger, Barbarian, Fighter.
+Suggested faiths: Khazar and the Thirteen Muses, None / Undecided.
+
+Prompt:
+
+What did the desert teach you that cities never could?
+
+Icon idea: sun / dune / compass.
+
+### Deepborn Heir
+
+Description:
+
+You come from the wealth, ritual, secrecy, or political world of Atlantis and the deep Nald courts.
+
+Suggested races: Nald.
+Suggested origins: Atlantean.
+Suggested classes: Cleric, Wizard, Bard, Rogue.
+Suggested faiths: Ancients of the Deep.
+
+Prompt:
+
+What does your family, temple, or court expect from you?
+
+Icon idea: pearl / crown / wave.
+
+### Relic Seeker
+
+Description:
+
+You search ruins, temples, old roads, wrecks, and forbidden places for objects the world forgot but should not have lost.
+
+Suggested races: Bashet, Wildlings.
+Suggested origins: Cityfolk, Circleborn, Wildstray.
+Suggested classes: Rogue, Wizard, Ranger, Fighter.
+Suggested faiths: Any.
+
+Prompt:
+
+What lost thing are you searching for?
+
+Icon idea: broken pillar / key.
+
+### Court Performer
+
+Description:
+
+You were trained in art, music, fashion, rhetoric, seduction, gossip, or spectacle. You know beauty can be a weapon.
+
+Suggested races: Bashet.
+Suggested origins: Cityfolk.
+Suggested classes: Bard, Rogue, Sorcerer.
+Suggested faiths: Khazar and the Thirteen Muses.
+
+Prompt:
+
+Who taught you that beauty could protect, wound, or deceive?
+
+Icon idea: mask / lyre / rose.
+
+### Hunted
+
+Description:
+
+Something is pursuing you. It may be a person, a family, a temple, a Dragonlord’s servant, a debt, a secret, a mistake, or something stranger. You have learned to move carefully, sleep lightly, and decide quickly who deserves your trust.
+
+Suggested races: Drakanis, Nald.
+
+Prompt:
+
+Who or what are you running from, and what happens if it finds you?
+
+Icon idea: broken chain / watching eye / running track.
+
+### Wilds Initiate
+
+Description:
+
+You were shaped by spirits, animals, migration, masks, hunts, seasons, or oral traditions beyond city law.
+
+Suggested races: Wildling.
+Suggested origins: Circleborn, Wildstray.
+Suggested classes: Druid, Ranger, Barbarian.
+Suggested faiths: Elementals and Spirits of the Wilds.
+
+Prompt:
+
+What spirit, animal, or ritual first claimed your attention?
+
+Icon idea: antler / spirit mask.
+
+## Recommended badge behavior
+
+A background receives a Recommended badge if it matches any chosen race, origin, class, or faith.
+
+In the detail panel, separate recommendation reasons:
+
+* Suggested race.
+* Suggested origin.
+* Suggested class.
+* Suggested faith.
+
+---
+
+# Screen 7 — Choose Equipment
+
+## Purpose
+
+Let the player optionally choose contextual flavor equipment. Equipment is flavor-only and does not affect stats, AC, attacks, damage, spells, or calculations.
+
+## Key rule
+
+Do **not** show all equipment packs as broadly selectable. Only show packs that match the character.
+
+Show:
+
+1. Origin / ancestry pack.
+2. Background pack, only if a background was selected.
+3. Custom item input.
+
+Players may choose neither, one, or both contextual packs.
+
+## Layout
+
+* Title: **Choose Equipment**
+* Explanation.
+* Recommended origin/ancestry pack card.
+* Recommended background pack card, if applicable.
+* Combined selected equipment list.
+* Custom item input.
+* Continue always available.
+
+## Explanation text
+
+Equipment in this creator is flavor-only. Choose any suggested packs, customize your items, or continue with a blank equipment section.
+
+## Pack behavior
+
+* No pack selected by default.
+* Each visible pack can be added or removed.
+* Players can select neither, origin pack only, background pack only, or both.
+* After adding packs, items appear in one combined equipment list.
+* Players can remove individual items.
+* Players can add custom items.
+* PDF prints only the final equipment list.
+* If the list is empty, PDF equipment section remains blank with write-in lines.
+
+## Origin / ancestry packs
+
+### Cityfolk Pack
+
+Items:
+
+* Perfume
+* Small mirror
+* Fancy Underwear (not yours)
+* Ink pen
+* Jeweled hairpin or brooch
+
+### Sandstrider Pack
+
+Items:
+
+* Waterskin
+* Sun veil
+* Desert knife
+* Dried rations
+* Carved family charm
+
+### Atlantean Pack
+
+Items:
+
+* Pearl prayer beads
+* Sealed letter
+* Silver comb
+* Waterproof map
+* Ancient of the Deep charm
+
+### Oceanic Pack
+
+Items:
+
+* Shell whistle
+* Woven kelp cord
+* Tide charm
+* Waterproof pouch
+* Polished coral shard
+
+### Ruby Drakanis Pack
+
+Items:
+
+* Firestarter
+* Whetstone
+* Broken chains
+* Volcanic glass shard
+* Heavy travel cloak
+
+### Sapphire Drakanis Pack
+
+Items:
+
+* Storm charm
+* Folded map
+* Healer’s wrap
+* Ink stylus
+* Animal training whistle
+
+### Emerald Drakanis Pack
+
+Items:
+
+* Herbal pouch
+* Bone charm
+* Climbing cord
+* Animal lure
+* Small empty vial
+
+### Silver Drakanis Pack
+
+Items:
+
+* Winter cloak
+* Hidden coin
+* Coded scrap
+* Old family token
+* Small tool roll
+
+### Golden Drakanis Pack
+
+Items:
+
+* Ceremonial sash
+* Polished mirror
+* Prayer strip
+* Heroic songbook
+* Gold-painted scale charm
+
+### Wildling Pack
+
+Items:
+
+* Hand-carved mask
+* Trail rations
+* Spirit charm
+* Bone needle
+* Weathered travel wrap
+
+## Background packs
+
+### Curse-Touched Pack
+
+* Cracked mirror
+* Thread bracelet
+* Very old coin
+* Covered journal
+* Strange shed scale
+
+### Temple Raised Pack
+
+* Prayer cord
+* Candle stub
+* Copied hymn
+* Temple token
+* Folded doctrine page
+
+### Dragonbound Pack
+
+* Service mark
+* Chain fragment
+* Dragon-scale token
+* Military ration
+* Oath cloth
+
+### Desert Wanderer Pack
+
+* Extra waterskin
+* Sunstone charm
+* Travel wrap
+* Bone dice
+* Worn route marker
+
+### Deepborn Heir Pack
+
+* Pearl seal
+* Family ring
+* Waterproof letter case
+* Court perfume
+* Tiny shell ledger
+
+### Relic Seeker Pack
+
+* Broken ruin map
+* Charcoal stick
+* Small brush
+* Old key
+* Wrapped relic fragment
+
+### Court Performer Pack
+
+* Painted mask
+* Ribbon fan
+* Love letter
+* Cosmetic tin
+* Hidden coin purse
+
+### Hunted Pack
+
+* False-name token
+* Torn cloak
+* Hidden knife sheath
+* Half-burned letter
+* Roadside warning mark
+
+### Wilds Initiate Pack
+
+* Ritual paint
+* Carved bone charm
+* Herbal bundle
+* Animal tooth
+* Campfire story token
+
+## Custom items
+
+Field:
+
+**Add custom item**
+
+Placeholder:
+
+Cracked compass, mother’s ring, forbidden temple key...
+
+Behavior:
+
+* Player enters item name.
+* Add Item button adds it to final equipment list.
+* Custom items can be removed.
+
+---
+
+# Screen 8 — Character Details & Portrait
+
+## Purpose
+
+Collect personal identity details and optional portrait for the PDF.
+
+## Layout
+
+* Title: **Character Details**
+* Short instruction.
+* Basic details form.
+* Portrait upload frame.
+* Story prompts.
+* Continue button.
+
+## Instruction text
+
+Add the personal details you want printed on your character sheet. Anything you leave blank will stay empty on the PDF so you can fill it in by hand later.
+
+## Fields
+
+### Required
+
+**Name**
+
+Rules:
+
+* Mandatory.
+* Max length: 32 characters.
+* PDF title should auto-size for long names.
+* If needed, wrap to two lines.
+
+Helper text:
+
+Your character name will appear as the title of your printable sheet.
+
+### Optional
+
+* Gender
+* Age
+* Appearance
+
+The PDF automatically fills:
+
+* Race.
+* Origin / ancestry.
+* Background, if selected.
+* Faith, if selected.
+* Class.
+
+## Portrait upload
+
+Optional.
+
+Accepted formats:
+
+* PNG
+* JPG
+* JPEG
+* WebP
+
+Behavior:
+
+* Upload is local only.
+* Image previews immediately in decorative portrait frame.
+* Player can replace image.
+* Player can remove image.
+* If no image is uploaded, PDF shows an empty decorative portrait frame.
+* Image is embedded into PDF only.
+* Image disappears if page refreshes.
+
+## Story prompts
+
+Include three optional text areas:
+
+1. How has the Curse shaped your life?
+2. Why have you left home?
+3. What memory do you never want to forget?
+
+If left empty, the PDF prints the questions with blank writing lines underneath.
+
+---
+
+# Screen 9 — Review & Export
+
+## Purpose
+
+Let the player review their character, jump back to edit any section, and export the final A4 PDF.
+
+## Layout
+
+* Title: **Review Your Character**
+* Character summary cards.
+* Edit button for each section.
+* Portrait preview.
+* PDF preview panel.
+* Primary CTA: **Download Printable PDF**
+* Warning that character is not saved.
+
+## Sections to review
+
+Each section should have an Edit button:
+
+1. Character Details.
+2. Race.
+3. Origin / Ancestry.
+4. Faith.
+5. Class.
+6. Background.
+7. Equipment.
+8. Portrait.
+9. Story Prompts.
+
+## Edit behavior
+
+* Clicking Edit jumps back to that screen.
+* Previous choices remain preserved.
+* Player can change choices.
+* If changing a parent choice invalidates later choices, the app should clear or revalidate dependent data.
+
+Examples:
+
+* Changing Race clears Origin / Ancestry, origin skills, race-specific equipment pack, and race-specific PDF theme.
+* Changing Origin clears origin skills and origin pack selection.
+* Changing Class clears class skill selections.
+* Changing Background changes background pack availability.
+
+## Warning text
+
+Your character is not saved. Download your PDF before closing or refreshing the page.
+
+## PDF preview
+
+The Review screen should include a lightweight preview of the generated PDF before download. The preview does not need full editing inside the PDF; it should help players confirm layout, portrait, name treatment, selected theme, and page count.
+
+## CTA
+
+**Download Printable PDF**
+
+---
+
+## 8. PDF Export Specification
+
+## Format
+
+* A4.
+* Portrait orientation.
+* Designed for printing.
+* Parchment background.
+* Decorative borders.
+* Serif headings.
+* Dotted write-in lines.
+* Race-specific visual theme.
+
+## Page count
+
+All characters receive:
+
+1. Page 1 — Play Sheet.
+2. Page 2 — ANIMA Identity Sheet.
+
+Spellcasting classes also receive:
+
+3. Page 3 — Spell Sheet.
+
+Spell sheet classes:
+
+* Bard
+* Cleric
+* Druid
+* Paladin
+* Ranger
+* Sorcerer
+* Warlock
+* Wizard
+
+No spell sheet for:
+
+* Barbarian
+* Fighter
+* Monk
+* Rogue
+
+## Page 1 — Play Sheet
+
+Purpose:
+
+A practical table-use character sheet with blank mechanical fields and selected proficiencies marked.
+
+Include:
+
+* Character name as title.
+* Race.
+* Origin / ancestry.
+* Class.
+* Level field, blank.
+* Background field, filled if selected, blank if not.
+* Faith field, filled if selected, blank if not.
+* Subclass / Path / Order field, blank.
+* Ability score boxes, blank.
+* Ability modifier boxes, blank.
+* Saving throws, blank.
+* Skills list with **P** icon next to selected proficiencies.
+* Skill modifier fields, blank.
+* HP, AC, initiative, speed, blank.
+* Attacks / weapons area, blank.
+* Features & Traits section.
+* Equipment is not listed in full on Page 1; it appears on Page 2 to preserve room for play fields.
+
+### Skills list
+
+Show all standard skills:
+
+* Acrobatics
+* Animal Handling
+* Arcana
+* Athletics
+* Deception
+* History
+* Insight
+* Intimidation
+* Investigation
+* Medicine
+* Nature
+* Perception
+* Performance
+* Persuasion
+* Religion
+* Sleight of Hand
+* Stealth
+* Survival
+
+Each skill row includes:
+
+* Skill name.
+* Related ability abbreviation.
+* P marker area.
+* Blank modifier/write-in field.
+
+Selected origin and class proficiencies receive a **P** marker.
+
+### Features & Traits
+
+Print important ANIMA reminders, for example:
+
+* Bashet: Darkvision.
+* Bashet: +2 Dexterity, +1 Charisma.
+* Nald: Breathe underwater.
+* Nald: +2 Intelligence, +1 Wisdom.
+* Drakanis: +2 Constitution, +1 Strength.
+* Drakanis lineage resistance.
+* Drakanis breath weapon reminder.
+* Wildling: chosen +2 and +1 ability bonuses.
+* Wildling animal form.
+* Rogue: Expertise write-in reminder with two blank lines.
+
+Do not calculate values.
+
+## Page 2 — ANIMA Identity Sheet
+
+Purpose:
+
+A beautiful, lore-focused character profile page.
+
+Include:
+
+* Large portrait frame.
+* Character name.
+* Gender.
+* Age.
+* Appearance.
+* Race.
+* Origin / ancestry.
+* Background, if selected; blank if not.
+* Faith, if selected; blank if not.
+* Class.
+* Class flavor description.
+* Race/origin summary.
+* Faith description, if selected.
+* Background description, if selected.
+* Ancestry traits.
+* Equipment list, if equipment was selected; otherwise blank write-in lines.
+* Story prompts with filled answers or blank lines:
+
+  * How has the Curse shaped your life?
+  * Why have you left home?
+  * What memory do you never want to forget?
+* Custom notes / blank writing area.
+
+## Page 3 — Spell Sheet
+
+Included only for spellcasting classes.
+
+Purpose:
+
+A blank hand-fillable spell sheet.
+
+Include:
+
+* Character name.
+* Class.
+* Spellcasting ability, blank.
+* Spell save DC, blank.
+* Spell attack bonus, blank.
+* Cantrips section with blank lines.
+* Level 1 spells section with blank lines.
+* Higher-level spell sections or compact spell list areas.
+* Spell notes / rituals / components area.
+
+No spells are selected or printed by the app.
+
+---
+
+## 9. PDF Race Themes
+
+The PDF uses one shared layout with race-specific visual theming. Race changes accent colors, ornamental motifs, dividers, section icons, and subtle background decoration, but not information architecture.
+
+## Bashet theme
+
+Color mood:
+
+* Warm gold.
+* Sand.
+* Deep red.
+* Ink brown.
+
+Decoration ideas:
+
+* Feline eyes.
+* Claw marks.
+* Sun motifs.
+* Rem-style arches.
+* Festival ornaments.
+
+## Nald theme
+
+Color mood:
+
+* Teal.
+* Pearl.
+* Sea blue.
+* Muted gold.
+
+Decoration ideas:
+
+* Waves.
+* Shells.
+* Coral.
+* Pearls.
+* Water gates.
+* Temple curves.
+
+## Drakanis theme
+
+Base decoration ideas:
+
+* Dragon scales.
+* Horns.
+* Dragon wings.
+* Mountain lines.
+* Flame / radiance motifs.
+
+The Drakanis PDF theme keeps the same layout and ornament system for all lineages, but accent colors shift subtly based on selected lineage.
+
+### Drakanis lineage accent variants
+
+| Lineage  | Accent direction                        |
+| -------- | --------------------------------------- |
+| Ruby     | Ember red, volcanic orange, dark iron   |
+| Sapphire | Storm blue, electric blue, slate grey   |
+| Emerald  | Deep green, poison green, moss/jade     |
+| Silver   | Frost white, silver, pale blue-grey     |
+| Golden   | Radiant gold, sunlit ivory, warm bronze |
+
+Apply lineage color changes to:
+
+* Border color.
+* Divider color.
+* Icon tint.
+* Section heading accents.
+* Small decorative flourishes.
+
+## Wildling theme
+
+Color mood:
+
+* Moss green.
+* Bark brown.
+* Ochre.
+* Bone white.
+
+Decoration ideas:
+
+* Leaves.
+* Roots.
+* Antlers.
+* Paw marks.
+* Masks.
+* Spirals.
+* Animal tracks.
+
+---
+
+## 10. Data Model Requirements
+
+Implementation should use hardcoded structured data, preferably JSON or TypeScript objects.
+
+Suggested data entities:
+
+* `races`
+* `origins`
+* `faiths`
+* `classGroups`
+* `classes`
+* `backgrounds`
+* `equipmentPacks`
+* `pdfThemes`
+* `skills`
+
+## Character state
+
+Suggested character state shape:
+
+```ts
+type CharacterState = {
+  name: string;
+  gender?: string;
+  age?: string;
+  appearance?: string;
+  portraitImage?: string;
+
+  race?: string;
+  origin?: string;
+  animalForm?: string;
+
+  abilityBonusPlusTwo?: string;
+  abilityBonusPlusOne?: string;
+
+  faith?: string;
+  classGroup?: string;
+  class?: string;
+  background?: string;
+
+  originSkills: string[];
+  classSkills: string[];
+
+  selectedEquipmentPacks: string[];
+  equipmentItems: string[];
+
+  curseAnswer?: string;
+  leftHomeAnswer?: string;
+  memoryAnswer?: string;
+};
+```
+
+---
+
+## 11. Rules and Validation
+
+## Required fields
+
+* Race.
+* Origin / ancestry.
+* Required origin skill choices.
+* Class group.
+* Class.
+* Required class skill choices.
+* Character name.
+
+## Optional fields
+
+* Faith.
+* Background.
+* Equipment.
+* Gender.
+* Age.
+* Appearance.
+* Portrait.
+* Story prompt answers.
+
+## Skill validation
+
+* Origin skills: exactly 2.
+* Class skills: exact number by class.
+* Duplicates are not allowed.
+* If a skill is already selected from origin, it should be disabled or marked Already Proficient in class skill dropdowns.
+
+## Wildling validation
+
+* Animal form required after choosing Circleborn or Wildstray.
+* +2 ability score required.
+* +1 ability score required.
+* +2 and +1 cannot be the same ability.
+* Two unique skill proficiencies required.
+
+## Name validation
+
+* Required.
+* Max 32 characters.
+* PDF title auto-sizes or wraps for long names.
+
+---
+
+## 12. Technical Recommendations
+
+## Suggested implementation
+
+* Single-page React web app.
+* Hardcoded JSON/TypeScript content.
+* Client-side state only.
+* Local image upload only.
+* Client-side PDF generation.
+* No backend required.
+* Deployable on Vercel, Netlify, or similar.
+
+## PDF generation
+
+Possible approaches:
+
+* Render HTML/CSS A4 pages and export to PDF.
+* Use a client-side PDF library.
+* Prioritize visual fidelity and print layout.
+
+The PDF should be tested for:
+
+* A4 print sizing.
+* Portrait image scaling/cropping.
+* Long character names.
+* Empty fields.
+* Spell sheet conditional inclusion.
+* Race theme changes.
+
+## Local image handling
+
+* Uploaded portrait should be stored only in browser memory/state.
+* No upload to server.
+* Convert to data URL or object URL for preview and PDF generation.
+
+---
+
+## 13. Content and Legal Safety Notes
+
+* Use original ANIMA descriptions.
+* Do not copy official D&D class descriptions, subclass text, icons, or artwork.
+* Use custom ANIMA icons for classes and UI.
+* Keep rules references minimal and compatible with public 5e-style terminology.
+* Avoid using official D&D branding or proprietary visual assets.
+
+---
+
+## 14. Asset Placeholders
+
+The spec assumes the following assets will be provided later:
+
+* ANIMA logo or title treatment.
+* Parchment texture.
+* UI ornament set.
+* Race illustrations.
+* Optional race selected-state animation files that play once and end on their final frame.
+* Origin/ancestry illustrations.
+* Lore card illustrations.
+* Faith card illustrations.
+* Calling card illustrations.
+* Custom class icons.
+* Background icons.
+* Equipment icons.
+* PDF race theme decorations.
+* PDF portrait frame.
+
+---
+
+## 15. Open Questions
+
+These can be resolved later without blocking build:
+
+1. Finalize all illustrations and icon assets.
+2. Decide exact PDF implementation method after visual design mockups.
+3. Confirm the final file format for selected-state race card animations, such as GIF, WebM, or MP4.
+
+Confirmed decisions:
+
+* Use **Atlantean** spelling.
+* Empty PDF fields should use write-in lines.
+* Include a lightweight PDF preview before download.
+
+---
+
+## 16. Build Priority
+
+Suggested build order:
+
+1. Set up app shell, routing/step state, and parchment UI foundation.
+2. Implement Welcome and Learn About the World.
+3. Implement Race and Origin screens.
+4. Implement Faith, Class, Background, and Equipment screens.
+5. Implement Character Details and Portrait upload.
+6. Implement Review screen with edit navigation.
+7. Implement basic A4 PDF export.
+8. Add race-specific PDF themes.
+9. Add Drakanis lineage accent variants.
+10. Polish responsive/mobile behavior.
+11. Add final illustrations, icons, and PDF visual treatment.
+
+---
+
+## 17. Claude / Coding Agent Handoff Notes
+
+This specification is intended to be handed to a coding agent such as Claude.
+
+Guidance for implementation:
+
+* Treat this document as the source of truth for product behavior and content.
+* Do not invent new lore, mechanics, races, classes, backgrounds, or rules unless asked.
+* Preserve hidden lore boundaries, especially the secret origin of the Drakanis.
+* Build data-driven UI from structured content objects rather than hardcoding logic into components.
+* Keep the app client-only unless explicitly instructed otherwise.
+* Prioritize the creation flow and A4 PDF export over advanced persistence.
+* Use placeholders for final art assets, but structure the code so assets can be swapped easily.
+* Keep all mechanical fields blank on the PDF except selected proficiencies and ANIMA traits/reminders.
+* Ask for clarification before changing naming, lore, or rules.

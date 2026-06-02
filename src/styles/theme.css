@@ -1,0 +1,37 @@
+:root {
+  /* === COLORS === */
+  --color-parchment: #f4e9d4;        /* Main background — warm cream */
+  --color-parchment-dark: #e8d5b0;   /* Slightly darker parchment for cards */
+  --color-gold: #c9a227;             /* Gold accents, borders, dividers */
+  --color-gold-light: #e8c84a;       /* Lighter gold for hover states */
+  --color-ink: #2c1a0e;              /* Dark brown — main text color */
+  --color-ink-light: #5c3d1e;        /* Medium brown — secondary text */
+  --color-sepia: #8b6545;            /* Muted brown — labels, captions */
+  --color-accent-red: #8b2020;       /* Deep red for selected states */
+  --color-white-soft: #fdf8f0;       /* Soft white for card backgrounds */
+
+  /* === FONTS === */
+  --font-heading: 'Playfair Display', Georgia, serif;   /* All headings */
+  --font-body: 'Lato', Arial, sans-serif;               /* Body text, labels */
+
+  /* === SPACING === */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+  --spacing-xxl: 64px;
+
+  /* === CARD SIZES === */
+  --race-card-width: 220px;
+  --race-card-height: 640px;
+
+  /* === BORDERS === */
+  --border-gold: 1px solid var(--color-gold);
+  --border-gold-thick: 2px solid var(--color-gold);
+  --border-radius: 4px;
+
+  /* === SHADOWS === */
+  --shadow-card: 0 2px 8px rgba(44, 26, 14, 0.15);
+  --shadow-card-hover: 0 4px 16px rgba(44, 26, 14, 0.25);
+}
