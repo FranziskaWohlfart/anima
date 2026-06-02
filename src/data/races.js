@@ -37,7 +37,7 @@ export const RACES = [
     id: 'drakanis',
     name: 'Drakanis',
     flavor: 'Half-dragon people of Yrarth, marked by ancient Dragonlords and draconic bloodlines.',
-    mechanics: ['+2 Constitution', '+1 Strength', 'Resistance', 'Breath Weapon'],
+    mechanics: ['+1 Constitution', '+1 Strength', 'Resistance', 'Breath Weapon'],
     stillImage: '/Race_Drakanis_Still.png',
     animatedImage: '/Race_Drakanis_Selected.mp4',
     description:

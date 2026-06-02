@@ -245,7 +245,7 @@ export default function Step3Origin({ step, character, updateCharacter, onBack, 
             <div className="detail-panel__section">
               <div className="detail-panel__section-label">Lineage Traits</div>
               <div className="detail-panel__traits">
-                <span className="trait-badge">+2 Constitution</span>
+                <span className="trait-badge">+1 Constitution</span>
                 <span className="trait-badge">+1 Strength</span>
                 <span className="trait-badge">{selectedOrigin.resistance} Resistance</span>
                 <span className="trait-badge">{selectedOrigin.breathWeapon?.damageType} Breath Weapon</span>

@@ -403,7 +403,7 @@ function PageOne({ character, theme, race, origin, cls, classGroup, faith, backg
       t.push('+2 Intelligence, +1 Wisdom')
     }
     if (character.race === 'drakanis') {
-      t.push('+2 Constitution, +1 Strength')
+      t.push('+1 Constitution, +1 Strength')
       if (origin?.resistance) t.push(`${origin.resistance} Resistance`)
       if (origin?.breathWeapon) {
         const bw = origin.breathWeapon
@@ -580,7 +580,7 @@ function PageTwo({ character, theme, race, origin, cls, classGroup, faith, backg
       t.push('+2 Intelligence, +1 Wisdom')
     }
     if (character.race === 'drakanis') {
-      t.push('+2 Constitution, +1 Strength')
+      t.push('+1 Constitution, +1 Strength')
       if (origin?.resistance) t.push(`${origin.resistance} Resistance`)
       if (origin?.breathWeapon) {
         const bw = origin.breathWeapon
