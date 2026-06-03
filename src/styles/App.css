@@ -298,6 +298,7 @@ p {
 
 .race-card__mechanics {
   margin-top: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
   display: flex;
   flex-wrap: wrap;
   gap: 3px;

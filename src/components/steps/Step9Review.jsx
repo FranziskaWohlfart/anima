@@ -219,13 +219,11 @@ export default function Step9Review({ step, character, onBack, jumpToStep }) {
         </button>
       </div>
 
-      {showPreview && (
-        <div className="pdf-preview-wrapper" style={{ height: 600 }}>
-          <PDFViewer width="100%" height="100%" showToolbar={false}>
-            <AnimaPDFDocument character={character} />
-          </PDFViewer>
-        </div>
-      )}
+      <div className="pdf-preview-wrapper" style={{ height: 600, display: showPreview ? 'block' : 'none' }}>
+        <PDFViewer width="100%" height="100%" showToolbar={false}>
+          <AnimaPDFDocument character={character} />
+        </PDFViewer>
+      </div>
 
       <div className="cta-area" style={{ flexDirection: 'column', gap: 'var(--spacing-sm)', alignItems: 'center' }}>
         <button
