@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useRef } from 'react'
 import Navigation from '../Navigation.jsx'
 import { BACKGROUNDS } from '../../data/backgrounds.js'
 
@@ -21,21 +21,16 @@ function getRecommendReasons(bg, character) {
 }
 
 export default function Step6Background({ step, character, updateCharacter, onBack, onContinue }) {
-  useEffect(() => {
-    if (!character.background) {
-      const first = BACKGROUNDS.find(bg => isRecommended(bg, character))
-      if (first) updateCharacter({ background: first.id })
-    }
-  }, [])
-
+  const detailRef = useRef(null)
   const selectedBg = BACKGROUNDS.find(b => b.id === character.background)
 
   function handleSelect(bgId) {
-    if (character.background === bgId) {
-      // Deselect
-      updateCharacter({ background: null })
-    } else {
-      updateCharacter({ background: bgId })
+    const isDeselecting = character.background === bgId
+    updateCharacter({ background: isDeselecting ? null : bgId })
+    if (!isDeselecting) {
+      setTimeout(() => {
+        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 0)
     }
   }
 
@@ -85,6 +80,8 @@ export default function Step6Background({ step, character, updateCharacter, onBa
           <div className="option-card__title">Custom Background</div>
         </div>
       </div>
+
+      <div ref={detailRef} />
 
       {selectedBg && (
         <div className="detail-panel">

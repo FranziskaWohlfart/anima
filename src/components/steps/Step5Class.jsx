@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import Navigation from '../Navigation.jsx'
+import ScrollableRow from '../ScrollableRow.jsx'
 import { CLASS_GROUPS, findClassById } from '../../data/classes.js'
 import { SKILLS } from '../../data/skills.js'
 
@@ -8,6 +9,41 @@ const allSkillNames = SKILLS.map(s => s.name)
 export default function Step5Class({ step, character, updateCharacter, onBack, onContinue }) {
   const selectedGroup = CLASS_GROUPS.find(g => g.id === character.classGroup)
   const selectedClass = findClassById(character.characterClass)
+
+  const classRowRef = useRef(null)
+  const detailRef = useRef(null)
+  const ctaRef = useRef(null)
+  const wasComplete = useRef(false)
+  const prevClassGroup = useRef(character.classGroup)
+  const prevCharacterClass = useRef(character.characterClass)
+
+  function isComplete() {
+    if (!character.classGroup || !character.characterClass || !selectedClass) return false
+    return character.classSkills.filter(Boolean).length === selectedClass.skillCount
+  }
+
+  const complete = isComplete()
+
+  useEffect(() => {
+    if (character.classGroup && character.classGroup !== prevClassGroup.current) {
+      classRowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }
+    prevClassGroup.current = character.classGroup
+  }, [character.classGroup])
+
+  useEffect(() => {
+    if (character.characterClass && character.characterClass !== prevCharacterClass.current) {
+      detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }
+    prevCharacterClass.current = character.characterClass
+  }, [character.characterClass])
+
+  useEffect(() => {
+    if (complete && !wasComplete.current) {
+      ctaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }
+    wasComplete.current = complete
+  }, [complete])
 
   function handleSelectGroup(groupId) {
     if (character.classGroup !== groupId) {
@@ -32,11 +68,6 @@ export default function Step5Class({ step, character, updateCharacter, onBack, o
     return character.originSkills.includes(skill)
   }
 
-  function isComplete() {
-    if (!character.classGroup || !character.characterClass || !selectedClass) return false
-    return character.classSkills.filter(Boolean).length === selectedClass.skillCount
-  }
-
   const callingImages = {
     martial: '/Class_Icon_Martial.png',
     divine: '/Class_Icon_Divine.png',
@@ -58,7 +89,7 @@ export default function Step5Class({ step, character, updateCharacter, onBack, o
       <div className="section-divider">
         <span className="section-divider__text">Step 1 — Choose a Calling</span>
       </div>
-      <div className="calling-cards-row">
+      <div className="calling-cards-grid">
         {CLASS_GROUPS.map(group => (
           <div
             key={group.id}
@@ -78,48 +109,46 @@ export default function Step5Class({ step, character, updateCharacter, onBack, o
         ))}
       </div>
 
-      {/* Class cards */}
-      {selectedGroup && (
-        <>
-          <div className="section-divider">
-            <span className="section-divider__text">Step 2 — Choose a Class</span>
-          </div>
-          <div className="class-cards-row">
-            {selectedGroup.classes.map(cls => (
-              <div
-                key={cls.id}
-                className={`race-card${character.characterClass === cls.id ? ' selected' : ''}`}
-                onClick={() => handleSelectClass(cls.id)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={e => e.key === 'Enter' && handleSelectClass(cls.id)}
-                aria-pressed={character.characterClass === cls.id}
-              >
-                <div className="race-card__image-wrapper">
-                  {cls.stillImage && (
-                    <img src={cls.stillImage} alt={cls.name} />
-                  )}
-                </div>
-                <div className="race-card__body">
-                  <div className="race-card__name">{cls.name}</div>
-                  {cls.cardDescription && (
-                    <div className="race-card__flavor">{cls.cardDescription}</div>
-                  )}
-                  {cls.isSpellcaster && (
-                    <div className="race-card__mechanics">
-                      <span className="mechanic-tag">Spellcaster</span>
-                    </div>
-                  )}
-                </div>
+      {/* Class cards — always in DOM so classRowRef is available for scrollIntoView */}
+      <div ref={classRowRef} style={{ visibility: selectedGroup ? 'visible' : 'hidden' }}>
+        <div className="section-divider">
+          <span className="section-divider__text">Step 2 — Choose a Class</span>
+        </div>
+        <ScrollableRow className="class-cards-row">
+          {(selectedGroup?.classes ?? []).map(cls => (
+            <div
+              key={cls.id}
+              className={`race-card${character.characterClass === cls.id ? ' selected' : ''}`}
+              onClick={() => handleSelectClass(cls.id)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={e => e.key === 'Enter' && handleSelectClass(cls.id)}
+              aria-pressed={character.characterClass === cls.id}
+            >
+              <div className="race-card__image-wrapper">
+                {cls.stillImage && (
+                  <img src={cls.stillImage} alt={cls.name} />
+                )}
               </div>
-            ))}
-          </div>
-        </>
-      )}
+              <div className="race-card__body">
+                <div className="race-card__name">{cls.name}</div>
+                {cls.cardDescription && (
+                  <div className="race-card__flavor">{cls.cardDescription}</div>
+                )}
+                {cls.isSpellcaster && (
+                  <div className="race-card__mechanics">
+                    <span className="mechanic-tag">Spellcaster</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </ScrollableRow>
+      </div>
 
       {/* Class detail panel + skill selection */}
       {selectedClass && (
-        <div className="detail-panel">
+        <div className="detail-panel" ref={detailRef}>
           <div className="detail-panel__title">{selectedClass.name}</div>
 
           <div className="detail-panel__section">
@@ -196,8 +225,8 @@ export default function Step5Class({ step, character, updateCharacter, onBack, o
         </div>
       )}
 
-      {isComplete() && (
-        <div className="cta-area">
+      {complete && (
+        <div className="cta-area" ref={ctaRef}>
           <button className="btn-continue" onClick={onContinue}>
             Continue →
           </button>

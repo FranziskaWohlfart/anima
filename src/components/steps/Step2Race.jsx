@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Navigation from '../Navigation.jsx'
 import RaceCard from '../RaceCard.jsx'
+import ScrollableRow from '../ScrollableRow.jsx'
 import { RACES } from '../../data/races.js'
 
 export default function Step2Race({ step, character, updateCharacter, onBack, onContinue }) {
+  const detailRef = useRef(null)
   const selectedRace = RACES.find(r => r.id === character.race)
 
   function handleSelectRace(raceId) {
@@ -19,6 +21,9 @@ export default function Step2Race({ step, character, updateCharacter, onBack, on
           p => !isOriginPack(p, character.race)
         ),
       })
+      setTimeout(() => {
+        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }, 0)
     }
   }
 
@@ -46,7 +51,7 @@ export default function Step2Race({ step, character, updateCharacter, onBack, on
         <p className="helper-hint">Click on a card to learn more about each people of Lemuria.</p>
       )}
 
-      <div className="race-cards-row">
+      <ScrollableRow className="race-cards-row">
         {RACES.map(race => (
           <RaceCard
             key={race.id}
@@ -55,44 +60,46 @@ export default function Step2Race({ step, character, updateCharacter, onBack, on
             onSelect={handleSelectRace}
           />
         ))}
-      </div>
+      </ScrollableRow>
 
-      <div className="detail-panel" style={{ visibility: selectedRace ? 'visible' : 'hidden' }}>
-          <div className="detail-panel__title">{selectedRace?.name}</div>
+      {selectedRace && (
+        <div className="detail-panel" ref={detailRef}>
+          <div className="detail-panel__title">{selectedRace.name}</div>
 
           <div className="detail-panel__section">
             <div className="detail-panel__section-label">About</div>
-            <div className="detail-panel__section-text">{selectedRace?.description}</div>
+            <div className="detail-panel__section-text">{selectedRace.description}</div>
           </div>
 
           <div className="detail-panel__section">
             <div className="detail-panel__section-label">Appearance</div>
-            <div className="detail-panel__section-text">{selectedRace?.appearance}</div>
+            <div className="detail-panel__section-text">{selectedRace.appearance}</div>
           </div>
 
           <div className="detail-panel__section">
             <div className="detail-panel__section-label">Culture</div>
-            <div className="detail-panel__section-text">{selectedRace?.culture}</div>
+            <div className="detail-panel__section-text">{selectedRace.culture}</div>
           </div>
 
           <div className="detail-panel__section">
             <div className="detail-panel__section-label">World Tension</div>
-            <div className="detail-panel__section-text">{selectedRace?.tension}</div>
+            <div className="detail-panel__section-text">{selectedRace.tension}</div>
           </div>
 
           <div className="detail-panel__section">
             <div className="detail-panel__section-label">Racial Traits</div>
             <div className="detail-panel__traits">
-              {selectedRace?.mechanics.map((m, i) => (
+              {selectedRace.mechanics.map((m, i) => (
                 <span key={i} className="trait-badge">{m}</span>
               ))}
             </div>
           </div>
 
           <p style={{ marginTop: 'var(--spacing-md)', fontStyle: 'italic', color: 'var(--color-sepia)', fontSize: '0.88rem' }}>
-            {selectedRace?.originHint}
+            {selectedRace.originHint}
           </p>
         </div>
+      )}
 
       {character.race && (
         <div className="sticky-cta">

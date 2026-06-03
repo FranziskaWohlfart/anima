@@ -149,7 +149,7 @@ p {
 .card.selected {
   border: var(--border-gold-thick);
   box-shadow: 0 0 0 2px var(--color-gold), var(--shadow-card-hover);
-  background-color: #f0e0b8;
+  background-color: var(--color-white-soft);
 }
 
 /* ==========================================
@@ -421,7 +421,7 @@ p {
 .option-card.selected {
   border: var(--border-gold-thick);
   box-shadow: 0 0 0 2px var(--color-gold), var(--shadow-card-hover);
-  background-color: #f0e0b8;
+  background-color: var(--color-white-soft);
 }
 
 .option-card__icon {
@@ -498,6 +498,27 @@ p {
   padding-top: 12px;
 }
 
+.calling-cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin: 0 auto var(--spacing-lg);
+  max-width: 900px;
+}
+
+.calling-cards-grid .calling-card {
+  flex: 0 0 calc((100% - 4 * var(--spacing-md)) / 5);
+  padding: var(--spacing-sm);
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .calling-cards-grid .calling-card {
+    flex: 0 0 calc((100% - 2 * var(--spacing-md)) / 3);
+  }
+}
+
 .calling-card {
   flex: 1;
   min-width: 120px;
@@ -519,7 +540,7 @@ p {
 .calling-card.selected {
   border: 2px solid var(--color-gold);
   box-shadow: 0 0 0 2px var(--color-gold), var(--shadow-card-hover);
-  background-color: #f0e0b8;
+  background-color: var(--color-white-soft);
   transform: translateY(-8px);
 }
 
@@ -590,7 +611,7 @@ p {
 .class-card.selected {
   border: var(--border-gold-thick);
   box-shadow: 0 0 0 2px var(--color-gold), var(--shadow-card-hover);
-  background-color: #f0e0b8;
+  background-color: var(--color-white-soft);
 }
 
 .class-card__icon {
@@ -810,6 +831,27 @@ select {
   padding-top: 12px;
 }
 
+.lore-cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin: 0 auto var(--spacing-lg);
+  max-width: 900px;
+}
+
+.lore-cards-grid .lore-card {
+  flex: 0 0 calc((100% - 4 * var(--spacing-md)) / 5);
+  padding: var(--spacing-sm);
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .lore-cards-grid .lore-card {
+    flex: 0 0 calc((100% - 2 * var(--spacing-md)) / 3);
+  }
+}
+
 .lore-card {
   flex: 1;
   min-width: 0;
@@ -831,7 +873,7 @@ select {
 .lore-card.selected {
   border: 2px solid var(--color-gold);
   box-shadow: 0 0 0 2px var(--color-gold), var(--shadow-card-hover);
-  background-color: #f0e0b8;
+  background-color: var(--color-white-soft);
   transform: translateY(-8px);
 }
 
@@ -1573,6 +1615,37 @@ select {
   font-size: 0.72rem;
   color: var(--color-sepia);
   font-style: italic;
+}
+
+/* ==========================================
+   SCROLL DOTS (mobile card row indicator)
+   ========================================== */
+.scroll-dots {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .scroll-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 8px;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .scroll-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-parchment-dark);
+    border: 1px solid var(--color-gold);
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .scroll-dot--active {
+    background-color: var(--color-gold);
+  }
 }
 
 /* ==========================================

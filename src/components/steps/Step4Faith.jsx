@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useRef } from 'react'
 import Navigation from '../Navigation.jsx'
 import { FAITHS } from '../../data/faiths.js'
 
@@ -14,17 +14,17 @@ function isRecommended(faithId, character) {
 }
 
 export default function Step4Faith({ step, character, updateCharacter, onBack, onContinue }) {
-  useEffect(() => {
-    if (!character.faith) {
-      const first = FAITHS.find(f => isRecommended(f.id, character))
-      if (first) updateCharacter({ faith: first.id })
-    }
-  }, [])
-
+  const detailRef = useRef(null)
   const selectedFaith = FAITHS.find(f => f.id === character.faith)
 
   function handleSelect(faithId) {
-    updateCharacter({ faith: character.faith === faithId ? null : faithId })
+    const isDeselecting = character.faith === faithId
+    updateCharacter({ faith: isDeselecting ? null : faithId })
+    if (!isDeselecting) {
+      setTimeout(() => {
+        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 0)
+    }
   }
 
   return (
@@ -36,7 +36,7 @@ export default function Step4Faith({ step, character, updateCharacter, onBack, o
         belief, leave it uncertain, or reject faith entirely.
       </p>
 
-      <div className="lore-cards-row">
+      <div className="lore-cards-grid">
         {FAITHS.map(faith => (
           <div
             key={faith.id}
@@ -61,7 +61,7 @@ export default function Step4Faith({ step, character, updateCharacter, onBack, o
       </div>
 
       {selectedFaith && (
-        <div className="detail-panel">
+        <div className="detail-panel" ref={detailRef}>
           <div className="detail-panel__title">{selectedFaith.name}</div>
           <div className="detail-panel__section-text">
             {selectedFaith.description.split('\n').map((line, i) =>

@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import Navigation from '../Navigation.jsx'
 import OriginCard from '../OriginCard.jsx'
+import ScrollableRow from '../ScrollableRow.jsx'
 import { ORIGINS } from '../../data/origins.js'
 import { RACES } from '../../data/races.js'
 import { SKILLS } from '../../data/skills.js'
@@ -156,12 +157,18 @@ export default function Step3Origin({ step, character, updateCharacter, onBack, 
   const selectedOrigin = origins.find(o => o.id === character.origin)
   const isWildling = character.race === 'wildling'
   const isDrakanis = character.race === 'drakanis'
+  const detailRef = useRef(null)
+  const ctaRef = useRef(null)
+  const wasComplete = useRef(false)
+
+  const complete = isComplete()
 
   useEffect(() => {
-    if (!character.origin && origins.length > 0) {
-      updateCharacter({ origin: origins[0].id, originSkills: [] })
+    if (complete && !wasComplete.current) {
+      ctaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     }
-  }, [character.race])
+    wasComplete.current = complete
+  }, [complete])
 
   const titleMap = {
     bashet: 'Choose Your Origin',
@@ -183,6 +190,9 @@ export default function Step3Origin({ step, character, updateCharacter, onBack, 
           p => !isOriginPackId(p)
         ),
       })
+      setTimeout(() => {
+        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }, 0)
     }
   }
 
@@ -223,7 +233,7 @@ export default function Step3Origin({ step, character, updateCharacter, onBack, 
       <h1 className="screen-title">{title}</h1>
       <p className="screen-intro">{introText[character.race]}</p>
 
-      <div className="origin-cards-row">
+      <ScrollableRow className="origin-cards-row">
         {origins.map(origin => (
           <OriginCard
             key={origin.id}
@@ -232,10 +242,10 @@ export default function Step3Origin({ step, character, updateCharacter, onBack, 
             onSelect={handleSelectOrigin}
           />
         ))}
-      </div>
+      </ScrollableRow>
 
       {selectedOrigin && (
-        <div className="detail-panel">
+        <div className="detail-panel" ref={detailRef}>
           <div className="detail-panel__title">{selectedOrigin.name}</div>
 
           <div className="detail-panel__section">
@@ -297,8 +307,8 @@ export default function Step3Origin({ step, character, updateCharacter, onBack, 
         </div>
       )}
 
-      {isComplete() && (
-        <div className="cta-area">
+      {complete && (
+        <div className="cta-area" ref={ctaRef}>
           <button className="btn-continue" onClick={onContinue}>
             Continue →
           </button>

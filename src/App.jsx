@@ -18,7 +18,7 @@ const initialCharacter = {
   appearance: '',
   portraitImage: null,
   portraitCleared: false,
-  race: 'bashet',
+  race: null,
   origin: null,
   animalForm: '',
   wildlingRacialTrait: '',

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Navigation from '../Navigation.jsx'
 import { LORE_SECTIONS } from '../../data/lore.js'
 
@@ -50,12 +50,19 @@ function LoreDetail({ section }) {
 }
 
 export default function Step1World({ step, onBack, onContinue }) {
-  const [selectedLoreId, setSelectedLoreId] = useState('lands')
+  const [selectedLoreId, setSelectedLoreId] = useState(null)
+  const detailRef = useRef(null)
 
   const selectedSection = LORE_SECTIONS.find(s => s.id === selectedLoreId)
 
   function handleLoreClick(id) {
-    setSelectedLoreId(prev => prev === id ? null : id)
+    const isDeselecting = selectedLoreId === id
+    setSelectedLoreId(isDeselecting ? null : id)
+    if (!isDeselecting) {
+      setTimeout(() => {
+        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 0)
+    }
   }
 
   return (
@@ -84,7 +91,7 @@ export default function Step1World({ step, onBack, onContinue }) {
         </p>
       </div>
 
-      <div className="lore-cards-row">
+      <div className="lore-cards-grid">
         {LORE_SECTIONS.map(section => (
           <div
             key={section.id}
@@ -105,6 +112,7 @@ export default function Step1World({ step, onBack, onContinue }) {
         ))}
       </div>
 
+      <div ref={detailRef} />
       {selectedSection && <LoreDetail section={selectedSection} />}
 
       <div className="sticky-cta">
