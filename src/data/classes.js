@@ -57,7 +57,7 @@ export const CLASS_GROUPS = [
         name: 'Cleric',
         icon: '🕯️',
         cardDescription: 'A sacred vessel of faith, memory, ritual, and divine mystery.',
-        stillImage: '/Class_Cleric.png',
+        stillImage: '/cleric.png',
         description:
           'A vessel of faith, memory, and miracle. Clerics serve gods, heroes, Ancients, spirits, Dragonlords, or sacred mysteries. Their power may come from devotion, ritual, inherited duty, or something watching from beyond mortal understanding.',
         skillCount: 2,
