@@ -10,7 +10,7 @@ export const CLASS_GROUPS = [
         name: 'Fighter',
         icon: '🗡️',
         cardDescription: 'A trained warrior who survives through discipline, tactics, and mastery of arms.',
-        stillImage: '/Class_fighter.png',
+        stillImage: '/class_fighter.png',
         description:
           'Disciplined, versatile, and relentless. Fighters are trained warriors found among city guards, mercenary companies, noble houses, caravan escorts, Dragonlord armies, and rebel bands. In ANIMA, a Fighter is someone who has turned survival into craft.',
         skillCount: 2,
@@ -57,7 +57,7 @@ export const CLASS_GROUPS = [
         name: 'Cleric',
         icon: '🕯️',
         cardDescription: 'A sacred vessel of faith, memory, ritual, and divine mystery.',
-        stillImage: '/cleric.png',
+        stillImage: '/class_cleric.png',
         description:
           'A vessel of faith, memory, and miracle. Clerics serve gods, heroes, Ancients, spirits, Dragonlords, or sacred mysteries. Their power may come from devotion, ritual, inherited duty, or something watching from beyond mortal understanding.',
         skillCount: 2,
