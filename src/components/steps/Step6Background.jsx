@@ -86,10 +86,6 @@ export default function Step6Background({ step, character, updateCharacter, onBa
       {selectedBg && (
         <div className="detail-panel">
           <div className="detail-panel__title">
-            {selectedBg.image
-              ? <img src={selectedBg.image} alt={selectedBg.name} className="detail-panel__title-img" />
-              : selectedBg.icon + ' '
-            }
             {selectedBg.name}
           </div>
           <div className="detail-panel__section-text">{selectedBg.description}</div>
@@ -117,7 +113,6 @@ export default function Step6Background({ step, character, updateCharacter, onBa
       {character.background === 'custom' && (
         <div className="detail-panel">
           <div className="detail-panel__title">
-            <img src="/Background_none.png" alt="Custom Background" className="detail-panel__title-img" />
             Custom Background
           </div>
           <p className="detail-panel__section-text">

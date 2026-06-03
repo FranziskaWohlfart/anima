@@ -1727,6 +1727,10 @@ select {
     grid-template-columns: 1fr;
   }
 
+  .review-card--identity {
+    min-height: 0;
+  }
+
   .lore-cards-row {
     gap: var(--spacing-sm);
     justify-content: flex-start;

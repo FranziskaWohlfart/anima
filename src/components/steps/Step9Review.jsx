@@ -166,7 +166,7 @@ export default function Step9Review({ step, character, onBack, jumpToStep }) {
               ))}
             </ul>
           ) : (
-            <div className="review-card__value" style={{ color: 'var(--color-sepia)', fontStyle: 'italic' }}>No items selected</div>
+            <span style={{ fontSize: '0.82rem', fontStyle: 'italic', color: 'var(--color-sepia)' }}>No items selected — will show as blank lines in PDF</span>
           )}
         </div>
 
