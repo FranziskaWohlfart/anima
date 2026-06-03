@@ -10,7 +10,7 @@ export const CLASS_GROUPS = [
         name: 'Fighter',
         icon: '🗡️',
         cardDescription: 'A trained warrior who survives through discipline, tactics, and mastery of arms.',
-        stillImage: '/class_fighter.png',
+        stillImage: '/Class_fighter.png',
         description:
           'Disciplined, versatile, and relentless. Fighters are trained warriors found among city guards, mercenary companies, noble houses, caravan escorts, Dragonlord armies, and rebel bands. In ANIMA, a Fighter is someone who has turned survival into craft.',
         skillCount: 2,
