@@ -190,10 +190,11 @@ export default function Step3Origin({ step, character, updateCharacter, onBack, 
           p => !isOriginPackId(p)
         ),
       })
-      setTimeout(() => {
-        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-      }, 0)
     }
+  }
+
+  function handleLearnMore() {
+    detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }
 
   function isOriginPackId(packId) {
@@ -240,6 +241,7 @@ export default function Step3Origin({ step, character, updateCharacter, onBack, 
             origin={origin}
             isSelected={character.origin === origin.id}
             onSelect={handleSelectOrigin}
+            onLearnMore={handleLearnMore}
           />
         ))}
       </ScrollableRow>

@@ -21,10 +21,11 @@ export default function Step2Race({ step, character, updateCharacter, onBack, on
           p => !isOriginPack(p, character.race)
         ),
       })
-      setTimeout(() => {
-        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-      }, 0)
     }
+  }
+
+  function handleLearnMore() {
+    detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }
 
   function isOriginPack(packId, raceId) {
@@ -58,6 +59,7 @@ export default function Step2Race({ step, character, updateCharacter, onBack, on
             race={race}
             isSelected={character.race === race.id}
             onSelect={handleSelectRace}
+            onLearnMore={handleLearnMore}
           />
         ))}
       </ScrollableRow>

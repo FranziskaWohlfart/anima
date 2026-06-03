@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react'
 
-export default function OriginCard({ origin, isSelected, onSelect }) {
+export default function OriginCard({ origin, isSelected, onSelect, onLearnMore }) {
   const videoRef = useRef(null)
+  const cardRef = useRef(null)
+  const wasSelected = useRef(false)
   const [reducedMotion] = useState(
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
   )
@@ -15,10 +17,18 @@ export default function OriginCard({ origin, isSelected, onSelect }) {
     }
   }, [isSelected, reducedMotion])
 
+  useEffect(() => {
+    if (isSelected && !wasSelected.current && window.innerWidth <= 768) {
+      cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    }
+    wasSelected.current = isSelected
+  }, [isSelected])
+
   const showVideo = isSelected && !reducedMotion && origin.animatedImage
 
   return (
     <div
+      ref={cardRef}
       className={`origin-card${isSelected ? ' selected' : ''}`}
       onClick={() => onSelect(origin.id)}
       role="button"
@@ -53,6 +63,14 @@ export default function OriginCard({ origin, isSelected, onSelect }) {
             <span className="mechanic-tag">{origin.resistance} Resistance</span>
             <span className="mechanic-tag">{origin.breathWeapon?.damageType} Breath</span>
           </div>
+        )}
+        {isSelected && (
+          <button
+            className="card-learn-more-btn"
+            onClick={e => { e.stopPropagation(); onLearnMore() }}
+          >
+            Learn More ↓
+          </button>
         )}
       </div>
     </div>

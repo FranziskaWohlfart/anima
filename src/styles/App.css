@@ -40,7 +40,7 @@ p {
    SCREEN / STEP CONTAINER
    ========================================== */
 .screen {
-  padding-bottom: 120px; /* room for sticky CTA */
+  padding-bottom: var(--spacing-xl);
   overflow-anchor: none;
 }
 
@@ -310,6 +310,30 @@ p {
   color: var(--color-ink-light);
   padding: 4px 8px;
   border-radius: 10px;
+}
+
+/* ==========================================
+   CARD LEARN MORE BUTTON
+   ========================================== */
+.card-learn-more-btn {
+  display: block;
+  width: 100%;
+  margin-top: auto;
+  padding-top: var(--spacing-sm);
+  padding: 7px 0;
+  background-color: var(--color-gold);
+  color: var(--color-white-soft);
+  border: none;
+  border-radius: var(--border-radius);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.card-learn-more-btn:hover {
+  background-color: var(--color-gold-light);
 }
 
 /* ==========================================
@@ -796,27 +820,14 @@ select {
 }
 
 /* ==========================================
-   STICKY CTA BAR
+   CTA BUTTON AREA
    ========================================== */
-.sticky-cta {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: var(--color-parchment);
-  border-top: var(--border-gold);
-  padding: var(--spacing-md);
+.sticky-cta,
+.cta-area {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: var(--spacing-md);
-  z-index: 100;
-  box-shadow: 0 -2px 12px rgba(44, 26, 14, 0.12);
-}
-
-.cta-area {
-  display: flex;
-  justify-content: center;
   margin-top: var(--spacing-xl);
   padding-bottom: var(--spacing-xl);
 }
@@ -1556,6 +1567,9 @@ select {
 
 .origin-card__body {
   padding: var(--spacing-md) var(--spacing-lg);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .origin-card__name {
@@ -1671,7 +1685,9 @@ select {
   .race-cards-row {
     flex-wrap: nowrap;
     overflow-x: auto;
+    overflow-y: visible;
     justify-content: flex-start;
+    padding-top: 12px;
     padding-bottom: var(--spacing-sm);
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;

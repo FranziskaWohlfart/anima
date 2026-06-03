@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react'
 
-export default function RaceCard({ race, isSelected, onSelect }) {
+export default function RaceCard({ race, isSelected, onSelect, onLearnMore }) {
   const videoRef = useRef(null)
+  const cardRef = useRef(null)
+  const wasSelected = useRef(false)
   const [reducedMotion] = useState(
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
   )
@@ -11,16 +13,22 @@ export default function RaceCard({ race, isSelected, onSelect }) {
     if (!video) return
     if (isSelected && !reducedMotion) {
       video.currentTime = 0
-      video.play().catch(() => {
-        // Autoplay may be blocked — silently fail
-      })
+      video.play().catch(() => {})
     }
   }, [isSelected, reducedMotion])
+
+  useEffect(() => {
+    if (isSelected && !wasSelected.current && window.innerWidth <= 768) {
+      cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    }
+    wasSelected.current = isSelected
+  }, [isSelected])
 
   const showVideo = isSelected && !reducedMotion && race.animatedImage
 
   return (
     <div
+      ref={cardRef}
       className={`race-card${isSelected ? ' selected' : ''}`}
       onClick={() => onSelect(race.id)}
       role="button"
@@ -42,9 +50,7 @@ export default function RaceCard({ race, isSelected, onSelect }) {
             muted
             playsInline
             style={{ display: showVideo ? 'block' : 'none' }}
-            onEnded={() => {
-              // Video ends — stay on last frame (no loop)
-            }}
+            onEnded={() => {}}
           />
         )}
       </div>
@@ -56,6 +62,14 @@ export default function RaceCard({ race, isSelected, onSelect }) {
             <span key={i} className="mechanic-tag">{m}</span>
           ))}
         </div>
+        {isSelected && (
+          <button
+            className="card-learn-more-btn"
+            onClick={e => { e.stopPropagation(); onLearnMore() }}
+          >
+            Learn More ↓
+          </button>
+        )}
       </div>
     </div>
   )
