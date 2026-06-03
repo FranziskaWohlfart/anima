@@ -390,7 +390,7 @@ p {
   color: var(--color-ink);
   font-size: 0.8rem;
   padding: 4px 10px;
-  border-radius: 10px;
+  border-radius: 2px;
 }
 
 /* ==========================================
